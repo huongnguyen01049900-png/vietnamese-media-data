@@ -4,6 +4,12 @@ on:
   workflow_dispatch:
   schedule:
     - cron: '17 * * * *'
+  push:
+    branches: ["main"]
+    paths:
+      - 'config/sources.json'
+      - 'scripts/collect_live.py'
+      - '.github/workflows/collect-live.yml'
 
 permissions:
   contents: write
