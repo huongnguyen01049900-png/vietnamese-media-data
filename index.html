@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Cổng dữ liệu nghiên cứu truyền thông tiếng Việt toàn cầu, đọc trực tiếp từ workbook Excel." />
+  <title>Vietnamese Media Data Portal</title>
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-wrap">
+      <div class="mark" aria-hidden="true">VM</div>
+      <div>
+        <div class="eyebrow">RESEARCH DATA PORTAL</div>
+        <h1>Truyền thông tiếng Việt toàn cầu</h1>
+        <p class="subtitle">Báo · đài · tạp chí · creator · blog · cộng đồng — dữ liệu đọc trực tiếp từ Excel</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <a class="button secondary" href="data/database.xlsx" download>↓ Tải Excel</a>
+      <label class="button primary file-button">
+        Mở Excel khác
+        <input id="fileInput" type="file" accept=".xlsx,.xls" hidden />
+      </label>
+    </div>
+  </header>
+
+  <main>
+    <section class="notice" id="loadNotice" aria-live="polite">
+      <strong>Nguồn dữ liệu:</strong> <span id="dataSourceText">data/database.xlsx</span>
+      <span class="dot">•</span>
+      <span id="loadStatus">Đang tải…</span>
+    </section>
+
+    <section class="kpi-grid" aria-label="Tổng quan dữ liệu">
+      <article class="kpi-card"><span class="kpi-label">Tổng bản ghi</span><strong id="kpiTotal">—</strong><small>Nguồn + creator + tạp chí</small></article>
+      <article class="kpi-card"><span class="kpi-label">Nguồn truyền thông</span><strong id="kpiSources">—</strong><small>Source Detail</small></article>
+      <article class="kpi-card"><span class="kpi-label">Creator / blog</span><strong id="kpiCreators">—</strong><small>Creator Detail</small></article>
+      <article class="kpi-card"><span class="kpi-label">Tạp chí bổ sung</span><strong id="kpiMagazines">—</strong><small>Added Magazines</small></article>
+      <article class="kpi-card"><span class="kpi-label">Quốc gia / thị trường</span><strong id="kpiCountries">—</strong><small>Giá trị duy nhất</small></article>
+      <article class="kpi-card"><span class="kpi-label">Ngày kiểm tra</span><strong id="kpiChecked">—</strong><small>Mốc nghiên cứu gần nhất</small></article>
+    </section>
+
+    <section class="panel chart-panel">
+      <div class="section-heading">
+        <div><span class="eyebrow">OVERVIEW</span><h2>Phân bố dữ liệu</h2></div>
+        <p>Biểu đồ được tính lại mỗi khi workbook được thay thế.</p>
+      </div>
+      <div class="chart-grid">
+        <div class="chart-card"><h3>Theo quốc gia / thị trường</h3><div class="canvas-wrap"><canvas id="countryChart"></canvas></div></div>
+        <div class="chart-card"><h3>Theo trạng thái hoạt động</h3><div class="canvas-wrap"><canvas id="statusChart"></canvas></div></div>
+        <div class="chart-card"><h3>Theo nhóm dữ liệu</h3><div class="canvas-wrap"><canvas id="datasetChart"></canvas></div></div>
+      </div>
+    </section>
+
+    <section class="panel explorer">
+      <div class="section-heading explorer-heading">
+        <div><span class="eyebrow">DATA EXPLORER</span><h2>Tra cứu và kiểm chứng</h2></div>
+        <div class="dataset-tabs" id="datasetTabs" role="tablist" aria-label="Bộ dữ liệu"></div>
+      </div>
+
+      <div class="filters">
+        <label class="search-field">
+          <span>Tìm kiếm toàn bảng</span>
+          <input id="searchInput" type="search" placeholder="Tên nguồn, quốc gia, chủ biên, nội dung…" />
+        </label>
+        <label><span>Quốc gia / thị trường</span><select id="countryFilter"><option value="">Tất cả</option></select></label>
+        <label><span>Trạng thái</span><select id="statusFilter"><option value="">Tất cả</option></select></label>
+        <label><span>Loại / nền tảng</span><select id="typeFilter"><option value="">Tất cả</option></select></label>
+        <button class="button secondary compact" id="resetFilters">Xóa lọc</button>
+        <button class="button secondary compact" id="exportCsv">Xuất CSV</button>
+      </div>
+
+      <div class="table-meta">
+        <span><strong id="visibleCount">0</strong> bản ghi hiển thị</span>
+        <span>Chọn một dòng để xem toàn bộ trường dữ liệu và URL nguồn.</span>
+      </div>
+
+      <div class="table-wrap" tabindex="0">
+        <table id="dataTable">
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel methodology" id="methodology">
+      <div class="section-heading">
+        <div><span class="eyebrow">METHODOLOGY</span><h2>Đọc dữ liệu có trách nhiệm</h2></div>
+      </div>
+      <div class="method-grid">
+        <article><h3>UNKNOWN không phải “không có”</h3><p>Giá trị UNKNOWN nghĩa là chưa xác minh được từ nguồn công khai trong vòng nghiên cứu, không phải khẳng định thông tin đó không tồn tại.</p></article>
+        <article><h3>Creator ≠ newsroom</h3><p>Kênh cá nhân, blog, NGO và advocacy được phân loại riêng. Không mặc định chúng có quy trình biên tập như báo chí chuyên nghiệp.</p></article>
+        <article><h3>Ưu tiên nguồn gốc</h3><p>Các cột “Nguồn chính/official”, “Nguồn bổ sung” và “Mức bằng chứng” giúp phân biệt dữ liệu trực tiếp với nguồn thứ ba.</p></article>
+        <article><h3>Dữ liệu có thời điểm</h3><p>Số follower, lịch phát, tổng biên tập và trạng thái hoạt động có thể thay đổi. Luôn xem cột ngày kiểm tra trước khi sử dụng.</p></article>
+      </div>
+    </section>
+  </main>
+
+  <aside class="drawer" id="detailDrawer" aria-hidden="true">
+    <div class="drawer-backdrop" id="drawerBackdrop"></div>
+    <div class="drawer-panel" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+      <div class="drawer-header">
+        <div><span class="eyebrow">RECORD DETAIL</span><h2 id="drawerTitle">Chi tiết</h2></div>
+        <button class="icon-button" id="closeDrawer" aria-label="Đóng">×</button>
+      </div>
+      <div class="drawer-body" id="drawerBody"></div>
+    </div>
+  </aside>
+
+  <footer>
+    <p>Vietnamese Media Data Portal · Static site for GitHub Pages · Workbook-driven interface</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
