@@ -14,10 +14,11 @@
       <div>
         <div class="eyebrow">RESEARCH DATA PORTAL</div>
         <h1>Truyền thông tiếng Việt toàn cầu</h1>
-        <p class="subtitle">Báo · đài · tạp chí · creator · blog · cộng đồng — dữ liệu đọc trực tiếp từ Excel</p>
+        <p class="subtitle">Báo · đài · tạp chí · creator · blog · cộng đồng — dữ liệu nghiên cứu + live monitor</p>
       </div>
     </div>
     <div class="header-actions">
+      <a class="button primary" href="live.html">● Live Monitor</a>
       <a class="button secondary" href="data/database.xlsx" download>↓ Tải Excel</a>
       <label class="button primary file-button">
         Mở Excel khác
@@ -78,17 +79,12 @@
       </div>
 
       <div class="table-wrap" tabindex="0">
-        <table id="dataTable">
-          <thead></thead>
-          <tbody></tbody>
-        </table>
+        <table id="dataTable"><thead></thead><tbody></tbody></table>
       </div>
     </section>
 
     <section class="panel methodology" id="methodology">
-      <div class="section-heading">
-        <div><span class="eyebrow">METHODOLOGY</span><h2>Đọc dữ liệu có trách nhiệm</h2></div>
-      </div>
+      <div class="section-heading"><div><span class="eyebrow">METHODOLOGY</span><h2>Đọc dữ liệu có trách nhiệm</h2></div></div>
       <div class="method-grid">
         <article><h3>UNKNOWN không phải “không có”</h3><p>Giá trị UNKNOWN nghĩa là chưa xác minh được từ nguồn công khai trong vòng nghiên cứu, không phải khẳng định thông tin đó không tồn tại.</p></article>
         <article><h3>Creator ≠ newsroom</h3><p>Kênh cá nhân, blog, NGO và advocacy được phân loại riêng. Không mặc định chúng có quy trình biên tập như báo chí chuyên nghiệp.</p></article>
@@ -101,17 +97,12 @@
   <aside class="drawer" id="detailDrawer" aria-hidden="true">
     <div class="drawer-backdrop" id="drawerBackdrop"></div>
     <div class="drawer-panel" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
-      <div class="drawer-header">
-        <div><span class="eyebrow">RECORD DETAIL</span><h2 id="drawerTitle">Chi tiết</h2></div>
-        <button class="icon-button" id="closeDrawer" aria-label="Đóng">×</button>
-      </div>
+      <div class="drawer-header"><div><span class="eyebrow">RECORD DETAIL</span><h2 id="drawerTitle">Chi tiết</h2></div><button class="icon-button" id="closeDrawer" aria-label="Đóng">×</button></div>
       <div class="drawer-body" id="drawerBody"></div>
     </div>
   </aside>
 
-  <footer>
-    <p>Vietnamese Media Data Portal · Static site for GitHub Pages · Workbook-driven interface</p>
-  </footer>
+  <footer><p>Vietnamese Media Data Portal · Static research database + automated live media monitor</p></footer>
 
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
