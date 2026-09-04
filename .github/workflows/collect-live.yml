@@ -49,5 +49,6 @@ jobs:
             echo "No live-data changes"
           else
             git commit -m "data: refresh live media feeds"
-            git push
+            git pull --rebase origin main
+            git push origin main
           fi
