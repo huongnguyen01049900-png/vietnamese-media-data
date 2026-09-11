@@ -12,24 +12,25 @@
 </head>
 <body>
 <header class="topbar">
-  <div class="brand-wrap"><div class="mark">VM</div><div><div class="eyebrow">LIVE MEDIA MONITOR</div><h1>Luồng tin trực tiếp</h1><p class="subtitle">RSS · Atom · YouTube · website · links — cập nhật tự động bằng GitHub Actions</p></div></div>
-  <div class="header-actions"><a class="button secondary backlink" href="index.html">← Database</a><a class="button primary backlink" href="https://github.com/huongnguyen01049900-png/vietnamese-media-data/actions" target="_blank" rel="noopener">GitHub Actions ↗</a></div>
+  <div class="brand-wrap"><div class="mark">VM</div><div><div class="eyebrow">LIVE MEDIA MONITOR</div><h1 data-t="liveTitle">Luồng tin trực tiếp</h1><p class="subtitle" data-t="liveSub">RSS · Atom · YouTube · website · links — cập nhật tự động bằng GitHub Actions</p></div></div>
+  <div class="header-actions"><div class="lang-switch"><button type="button" data-lang="vi">VI</button><button type="button" data-lang="ko">한국어</button></div><a class="button secondary backlink" href="presentation.html" data-t="presentation">Bản trình bày</a><a class="button secondary backlink" href="index.html"><span data-t="database">Cơ sở dữ liệu</span></a><a class="button primary backlink" href="https://github.com/huongnguyen01049900-png/vietnamese-media-data/actions" target="_blank" rel="noopener">GitHub Actions ↗</a></div>
 </header>
 <main>
-  <section class="notice"><strong>Dữ liệu live:</strong> <span id="generated">Đang tải…</span> <span class="dot">•</span> <span id="statusText"></span></section>
+  <section class="notice"><strong data-t="liveData">Dữ liệu live:</strong> <span id="generated">Đang tải…</span> <span class="dot">•</span> <span id="statusText"></span></section>
   <section class="live-kpis">
-    <div class="live-kpi"><span>Tổng nguồn có link</span><strong id="kSources">—</strong></div>
-    <div class="live-kpi"><span>Kết nối lấy bài</span><strong id="kOk">—</strong></div>
-    <div class="live-kpi"><span>Link-only</span><strong id="kLinks">—</strong></div>
-    <div class="live-kpi"><span>Mục đã thu</span><strong id="kItems">—</strong></div>
-    <div class="live-kpi"><span>Nguồn lỗi crawl</span><strong id="kErrors">—</strong></div>
+    <div class="live-kpi"><span data-t="liveSources">Tổng nguồn có link</span><strong id="kSources">—</strong></div>
+    <div class="live-kpi"><span data-t="liveOk">Kết nối lấy bài</span><strong id="kOk">—</strong></div>
+    <div class="live-kpi"><span data-t="liveLinks">Link-only</span><strong id="kLinks">—</strong></div>
+    <div class="live-kpi"><span data-t="liveItems">Mục đã thu</span><strong id="kItems">—</strong></div>
+    <div class="live-kpi"><span data-t="liveErrors">Nguồn lỗi crawl</span><strong id="kErrors">—</strong></div>
   </section>
   <section class="panel">
-    <div class="live-top"><div><span class="eyebrow">LIVE FEED</span><h2>Bài viết & video gần nhất</h2><p class="summary-note">Nguồn lấy được bài sẽ hiển thị metadata; nguồn không lấy được bài vẫn được giữ thành liên kết trực tiếp bên dưới.</p></div><div class="live-filters"><input id="q" type="search" placeholder="Tìm tiêu đề, nguồn…"><select id="source"><option value="">Tất cả nguồn</option></select><select id="kind"><option value="">Tất cả loại</option></select></div></div>
-    <div class="live-grid"><div class="live-card"><div id="feed"></div></div><div class="live-card"><h3>Source Health</h3><p class="summary-note">Active ≤3 ngày · Low activity 3–30 ngày · Stale 30–180 ngày · Link-only = chỉ giữ liên kết.</p><div id="health"></div></div></div>
-    <div class="live-card link-panel"><div class="live-top"><div><span class="eyebrow">SOURCE DIRECTORY</span><h2>Nguồn chỉ liên kết / chưa lấy được bài</h2><p class="summary-note">Các link này vẫn được duy trì để bạn mở trực tiếp sang nguồn gốc. Không có nguồn nào bị loại chỉ vì crawler không lấy được bài.</p></div><div class="live-filters"><input id="linkQ" type="search" placeholder="Tìm nguồn link-only…"></div></div><div class="link-list" id="linkOnly"></div></div>
+    <div class="live-top"><div><span class="eyebrow">LIVE FEED</span><h2 data-t="feedTitle">Bài viết & video gần nhất</h2><p class="summary-note" data-t="feedNote">Nguồn lấy được bài sẽ hiển thị metadata; nguồn không lấy được bài vẫn được giữ thành liên kết trực tiếp bên dưới.</p></div><div class="live-filters"><input id="q" type="search" placeholder="Tìm tiêu đề, nguồn…"><select id="source"><option value="">Tất cả nguồn</option></select><select id="kind"><option value="">Tất cả loại</option></select></div></div>
+    <div class="live-grid"><div class="live-card"><div id="feed"></div></div><div class="live-card"><h3 data-t="sourceHealth">Source Health</h3><p class="summary-note">Active ≤3 ngày · Low activity 3–30 ngày · Stale 30–180 ngày · Link-only = chỉ giữ liên kết.</p><div id="health"></div></div></div>
+    <div class="live-card link-panel"><div class="live-top"><div><span class="eyebrow">SOURCE DIRECTORY</span><h2 data-t="directory">Nguồn chỉ liên kết / chưa lấy được bài</h2><p class="summary-note" data-t="directoryNote">Các link này vẫn được duy trì để bạn mở trực tiếp sang nguồn gốc. Không có nguồn nào bị loại chỉ vì crawler không lấy được bài.</p></div><div class="live-filters"><input id="linkQ" type="search" placeholder="Tìm nguồn link-only…"></div></div><div class="link-list" id="linkOnly"></div></div>
   </section>
 </main>
 <footer><p>Vietnamese Media Data Portal · Live collection via public feeds, public metadata and direct source links</p></footer>
+<script src="assets/i18n.js"></script>
 <script src="assets/live.js"></script>
 </body></html>
