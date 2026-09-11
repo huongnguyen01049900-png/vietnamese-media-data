@@ -13,15 +13,15 @@
       <div class="mark" aria-hidden="true">VM</div>
       <div>
         <div class="eyebrow">RESEARCH DATA PORTAL</div>
-        <h1>Truyền thông tiếng Việt toàn cầu</h1>
-        <p class="subtitle">Báo · đài · tạp chí · creator · blog · cộng đồng — dữ liệu nghiên cứu + live monitor</p>
+        <h1 data-t="brandTitle">Truyền thông tiếng Việt ngoài Việt Nam</h1>
+        <p class="subtitle" data-t="brandSub">Báo · đài · tạp chí · tổ chức · cộng đồng — dữ liệu nghiên cứu + live monitor</p>
       </div>
     </div>
-    <div class="header-actions">
-      <a class="button primary" href="live.html">● Live Monitor</a>
-      <a class="button secondary" href="data/database.xlsx" download>↓ Tải Excel</a>
+    <div class="header-actions"><div class="lang-switch"><button type="button" data-lang="vi">VI</button><button type="button" data-lang="ko">한국어</button></div><a class="button secondary" href="presentation.html" data-t="presentation">Bản trình bày</a>
+      <a class="button primary" href="live.html">● <span data-t="live">Live Monitor</span></a>
+      <a class="button secondary" href="data/database.xlsx" download>↓ <span data-t="download">Tải Excel</span></a>
       <label class="button primary file-button">
-        Mở Excel khác
+        <span data-t="openExcel">Mở Excel khác</span>
         <input id="fileInput" type="file" accept=".xlsx,.xls" hidden />
       </label>
     </div>
@@ -29,53 +29,53 @@
 
   <main>
     <section class="notice" id="loadNotice" aria-live="polite">
-      <strong>Nguồn dữ liệu:</strong> <span id="dataSourceText">data/database.xlsx</span>
+      <strong data-t="dataSource">Nguồn dữ liệu:</strong> <span id="dataSourceText">data/database.xlsx</span>
       <span class="dot">•</span>
-      <span id="loadStatus">Đang tải…</span>
+      <span id="loadStatus" data-t="loading">Đang tải…</span>
     </section>
 
     <section class="kpi-grid" aria-label="Tổng quan dữ liệu">
-      <article class="kpi-card"><span class="kpi-label">Tổng bản ghi</span><strong id="kpiTotal">—</strong><small>Nguồn + creator + tạp chí</small></article>
-      <article class="kpi-card"><span class="kpi-label">Nguồn truyền thông</span><strong id="kpiSources">—</strong><small>Source Detail</small></article>
-      <article class="kpi-card"><span class="kpi-label">Creator / blog</span><strong id="kpiCreators">—</strong><small>Creator Detail</small></article>
-      <article class="kpi-card"><span class="kpi-label">Tạp chí bổ sung</span><strong id="kpiMagazines">—</strong><small>Added Magazines</small></article>
-      <article class="kpi-card"><span class="kpi-label">Quốc gia / thị trường</span><strong id="kpiCountries">—</strong><small>Giá trị duy nhất</small></article>
-      <article class="kpi-card"><span class="kpi-label">Ngày kiểm tra</span><strong id="kpiChecked">—</strong><small>Mốc nghiên cứu gần nhất</small></article>
+      <article class="kpi-card"><span class="kpi-label" data-t="total">Tổng bản ghi</span><strong id="kpiTotal">—</strong><small>Nguồn + creator + tạp chí</small></article>
+      <article class="kpi-card"><span class="kpi-label" data-t="sources">Nguồn truyền thông</span><strong id="kpiSources">—</strong><small>Source Detail</small></article>
+      <article class="kpi-card"><span class="kpi-label" data-t="creators">Creator / blog</span><strong id="kpiCreators">—</strong><small>Creator Detail</small></article>
+      <article class="kpi-card"><span class="kpi-label" data-t="magazines">Tạp chí bổ sung</span><strong id="kpiMagazines">—</strong><small>Added Magazines</small></article>
+      <article class="kpi-card"><span class="kpi-label" data-t="countries">Quốc gia / thị trường</span><strong id="kpiCountries">—</strong><small>Giá trị duy nhất</small></article>
+      <article class="kpi-card"><span class="kpi-label" data-t="checked">Ngày kiểm tra</span><strong id="kpiChecked">—</strong><small>Mốc nghiên cứu gần nhất</small></article>
     </section>
 
     <section class="panel chart-panel">
       <div class="section-heading">
-        <div><span class="eyebrow">OVERVIEW</span><h2>Phân bố dữ liệu</h2></div>
+        <div><span class="eyebrow">OVERVIEW</span><h2 data-t="overview">Phân bố dữ liệu</h2></div>
         <p>Biểu đồ được tính lại mỗi khi workbook được thay thế.</p>
       </div>
       <div class="chart-grid">
-        <div class="chart-card"><h3>Theo quốc gia / thị trường</h3><div class="canvas-wrap"><canvas id="countryChart"></canvas></div></div>
-        <div class="chart-card"><h3>Theo trạng thái hoạt động</h3><div class="canvas-wrap"><canvas id="statusChart"></canvas></div></div>
-        <div class="chart-card"><h3>Theo nhóm dữ liệu</h3><div class="canvas-wrap"><canvas id="datasetChart"></canvas></div></div>
+        <div class="chart-card"><h3 data-t="countryChart">Theo quốc gia / thị trường</h3><div class="canvas-wrap"><canvas id="countryChart"></canvas></div></div>
+        <div class="chart-card"><h3 data-t="statusChart">Theo trạng thái hoạt động</h3><div class="canvas-wrap"><canvas id="statusChart"></canvas></div></div>
+        <div class="chart-card"><h3 data-t="datasetChart">Theo nhóm dữ liệu</h3><div class="canvas-wrap"><canvas id="datasetChart"></canvas></div></div>
       </div>
     </section>
 
     <section class="panel explorer">
       <div class="section-heading explorer-heading">
-        <div><span class="eyebrow">DATA EXPLORER</span><h2>Tra cứu và kiểm chứng</h2></div>
+        <div><span class="eyebrow">DATA EXPLORER</span><h2 data-t="explorer">Tra cứu và kiểm chứng</h2></div>
         <div class="dataset-tabs" id="datasetTabs" role="tablist" aria-label="Bộ dữ liệu"></div>
       </div>
 
       <div class="filters">
         <label class="search-field">
-          <span>Tìm kiếm toàn bảng</span>
-          <input id="searchInput" type="search" placeholder="Tên nguồn, quốc gia, chủ biên, nội dung…" />
+          <span data-t="search">Tìm kiếm toàn bảng</span>
+          <input id="searchInput" type="search" placeholder="Tên nguồn, quốc gia, chủ biên, nội dung…" data-ph="search" />
         </label>
-        <label><span>Quốc gia / thị trường</span><select id="countryFilter"><option value="">Tất cả</option></select></label>
-        <label><span>Trạng thái</span><select id="statusFilter"><option value="">Tất cả</option></select></label>
-        <label><span>Loại / nền tảng</span><select id="typeFilter"><option value="">Tất cả</option></select></label>
-        <button class="button secondary compact" id="resetFilters">Xóa lọc</button>
-        <button class="button secondary compact" id="exportCsv">Xuất CSV</button>
+        <label><span data-t="country">Quốc gia / thị trường</span><select id="countryFilter"><option value="">Tất cả</option></select></label>
+        <label><span data-t="status">Trạng thái</span><select id="statusFilter"><option value="">Tất cả</option></select></label>
+        <label><span data-t="type">Loại / nền tảng</span><select id="typeFilter"><option value="">Tất cả</option></select></label>
+        <button class="button secondary compact" id="resetFilters" data-t="reset">Xóa lọc</button>
+        <button class="button secondary compact" id="exportCsv" data-t="csv">Xuất CSV</button>
       </div>
 
       <div class="table-meta">
-        <span><strong id="visibleCount">0</strong> bản ghi hiển thị</span>
-        <span>Chọn một dòng để xem toàn bộ trường dữ liệu và URL nguồn.</span>
+        <span><strong id="visibleCount">0</strong> <span data-t="shown">bản ghi hiển thị</span></span>
+        <span data-t="rowHint">Chọn một dòng để xem toàn bộ trường dữ liệu và URL nguồn.</span>
       </div>
 
       <div class="table-wrap" tabindex="0">
@@ -83,13 +83,13 @@
       </div>
     </section>
 
-    <section class="panel methodology" id="methodology">
-      <div class="section-heading"><div><span class="eyebrow">METHODOLOGY</span><h2>Đọc dữ liệu có trách nhiệm</h2></div></div>
+    <section class="panel presentation-teaser"><div><span class="eyebrow">PRESENTATION</span><h2 data-t="presentationTeaser">Nội dung trình bày cho giáo sư</h2><p data-t="presentationText">Bản trình bày song ngữ Việt–Hàn tập trung vào các nguồn tổ chức và tạp chí; creator/blog/YouTube chỉ dùng như số liệu nền.</p></div><a class="button primary" href="presentation.html" data-t="openPresentation">Mở bản trình bày song ngữ →</a></section><section class="panel methodology" id="methodology">
+      <div class="section-heading"><div><span class="eyebrow">METHODOLOGY</span><h2 data-t="method">Đọc dữ liệu có trách nhiệm</h2></div></div>
       <div class="method-grid">
-        <article><h3>UNKNOWN không phải “không có”</h3><p>Giá trị UNKNOWN nghĩa là chưa xác minh được từ nguồn công khai trong vòng nghiên cứu, không phải khẳng định thông tin đó không tồn tại.</p></article>
-        <article><h3>Creator ≠ newsroom</h3><p>Kênh cá nhân, blog, NGO và advocacy được phân loại riêng. Không mặc định chúng có quy trình biên tập như báo chí chuyên nghiệp.</p></article>
-        <article><h3>Ưu tiên nguồn gốc</h3><p>Các cột “Nguồn chính/official”, “Nguồn bổ sung” và “Mức bằng chứng” giúp phân biệt dữ liệu trực tiếp với nguồn thứ ba.</p></article>
-        <article><h3>Dữ liệu có thời điểm</h3><p>Số follower, lịch phát, tổng biên tập và trạng thái hoạt động có thể thay đổi. Luôn xem cột ngày kiểm tra trước khi sử dụng.</p></article>
+        <article><h3 data-t="unknownT">UNKNOWN không phải “không có”</h3><p data-t="unknownP">UNKNOWN nghĩa là chưa xác minh được từ nguồn công khai trong vòng nghiên cứu, không phải khẳng định thông tin đó không tồn tại.</p></article>
+        <article><h3 data-t="creatorT">Creator ≠ newsroom</h3><p data-t="creatorP">Kênh cá nhân, blog, NGO và advocacy được phân loại riêng. Không mặc định chúng có quy trình biên tập như báo chí chuyên nghiệp.</p></article>
+        <article><h3 data-t="primaryT">Ưu tiên nguồn gốc</h3><p data-t="primaryP">Các cột nguồn chính, nguồn bổ sung và mức bằng chứng giúp phân biệt dữ liệu trực tiếp với nguồn thứ ba.</p></article>
+        <article><h3 data-t="timeT">Dữ liệu có thời điểm</h3><p data-t="timeP">Số follower, lịch phát, tổng biên tập và trạng thái hoạt động có thể thay đổi. Luôn xem cột ngày kiểm tra trước khi sử dụng.</p></article>
       </div>
     </section>
   </main>
@@ -107,6 +107,7 @@
   <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
   <script src="assets/data-shim.js"></script>
+  <script src="assets/i18n.js"></script>
   <script src="assets/app.js"></script>
 </body>
 </html>
