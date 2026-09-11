@@ -108,3 +108,10 @@ footer { max-width: 1500px; margin: 0 auto; padding: 0 24px 34px; color: #7b8794
   .chart-grid { padding: 0 18px 18px; }
   .detail-row { grid-template-columns: 1fr; gap: 5px; }
 }
+
+.lang-switch{display:inline-flex;gap:4px;padding:4px;border:1px solid rgba(255,255,255,.24);border-radius:10px;background:rgba(255,255,255,.08)}
+.lang-switch button{border:0;background:transparent;color:#d9e7f5;padding:7px 10px;border-radius:7px;font-weight:800;cursor:pointer}
+.lang-switch button.active{background:#fff;color:#163b64}
+.presentation-teaser{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center;padding:22px 24px}
+.presentation-teaser h2{margin:4px 0 8px;font-size:24px}.presentation-teaser p{margin:0;color:var(--muted);max-width:900px;line-height:1.6}
+@media(max-width:700px){.presentation-teaser{grid-template-columns:1fr}}
