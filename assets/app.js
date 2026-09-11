@@ -2,19 +2,20 @@
   'use strict';
 
   const DEFAULT_FILE = 'data/database.xlsx';
+  const tr = (k, fallback='') => window.VM_I18N ? VM_I18N.t(k) : (fallback || k);
   const DATASETS = {
     sources: {
-      label: 'Nguồn truyền thông', sheet: 'Source Detail 56',
+      label: 'Nguồn truyền thông', labelKey: 'sourcesTab', sheet: 'Source Detail 56',
       titleKey: 'Tên nguồn', countryKey: 'Quốc gia/Thị trường', statusKey: 'Trạng thái 2026', typeKey: 'Loại hình gốc',
       columns: ['Tên nguồn','Quốc gia/Thị trường','Loại hình gốc','Năm/ngày thành lập hoặc số đầu','Tổng biên tập/Người phụ trách','Tần suất/lịch cập nhật hiện nay','Độ dài video/audio/podcast','Trạng thái 2026','Mức bằng chứng','Ngày kiểm tra']
     },
     creators: {
-      label: 'Creator / blog', sheet: 'Creator Detail 88',
+      label: 'Creator / blog', labelKey: 'creatorsTab', sheet: 'Creator Detail 88',
       titleKey: 'Creator/Kênh', countryKey: 'Quốc gia/Thị trường', statusKey: 'Trạng thái 2026', typeKey: 'Nền tảng chính',
       columns: ['Creator/Kênh','Nền tảng chính','Quốc gia/Thị trường','Năm tạo kênh/khởi đầu đã xác minh','Chủ kênh/Người phụ trách','Cụm nội dung','Tần suất đăng/cập nhật','Độ dài video/tập','Subscriber/Follower/View đã xác minh','Trạng thái 2026','Cấp xác minh','Ngày rà']
     },
     magazines: {
-      label: 'Tạp chí', sheet: 'Added Magazines',
+      label: 'Tạp chí', labelKey: 'magazinesTab', sheet: 'Added Magazines',
       titleKey: 'Tên tạp chí/ấn phẩm', countryKey: 'Quốc gia', statusKey: 'Trạng thái 2026', typeKey: 'Loại',
       columns: ['Tên tạp chí/ấn phẩm','Quốc gia','Loại','Trạng thái 2026','Năm/số đầu','Người sáng lập/Chủ trương','Chủ biên/Tổng biên tập','Hình thức phát hành','Tần suất','Website/Archive','Ngày kiểm tra']
     },
@@ -109,7 +110,7 @@
     Object.entries(DATASETS).forEach(([key, cfg]) => {
       const b = document.createElement('button');
       b.className = `dataset-tab ${key === currentDataset ? 'active' : ''}`;
-      b.type = 'button'; b.textContent = `${cfg.label} (${(bookData[key] || []).length})`;
+      b.type = 'button'; b.textContent = `${cfg.labelKey ? tr(cfg.labelKey, cfg.label) : cfg.label} (${(bookData[key] || []).length})`;
       b.addEventListener('click', () => selectDataset(key));
       els.tabs.appendChild(b);
     });
@@ -126,7 +127,8 @@
     if (!key) return [];
     return [...new Set(rows.map(r => clean(r[key])).filter(Boolean))].sort((a,b) => a.localeCompare(b,'vi'));
   }
-  function fillSelect(select, values, allLabel='Tất cả') {
+  function fillSelect(select, values, allLabel=null) {
+    allLabel = allLabel || tr('all','Tất cả');
     select.innerHTML = `<option value="">${allLabel}</option>` + values.map(v => `<option value="${safe(v)}">${safe(v)}</option>`).join('');
   }
   function populateFilters() {
@@ -158,7 +160,7 @@
     if (!value) return '<span style="color:#a0acb8">—</span>';
     if (/trạng thái|mức bằng chứng|cấp xác minh/i.test(key)) return badge(value);
     if (/ngày kiểm tra|ngày rà/i.test(key)) return safe(dateCandidate(value));
-    if (isURL(value)) return `<a href="${safe(value)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Mở nguồn ↗</a>`;
+    if (isURL(value)) return `<a href="${safe(value)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${tr('openSource','Mở nguồn ↗')}</a>`;
     return safe(value);
   }
 
@@ -168,7 +170,7 @@
     const head = els.table.querySelector('thead'), body = els.table.querySelector('tbody');
     head.innerHTML = `<tr>${cfg.columns.map(k => `<th data-key="${safe(k)}">${safe(k)}${sortState.key === k ? (sortState.dir === 1 ? ' ↑' : ' ↓') : ''}</th>`).join('')}</tr>`;
     if (!filteredRows.length) {
-      body.innerHTML = `<tr><td class="empty" colspan="${cfg.columns.length}">Không có bản ghi phù hợp bộ lọc.</td></tr>`;
+      body.innerHTML = `<tr><td class="empty" colspan="${cfg.columns.length}">${tr('noRows','Không có bản ghi phù hợp bộ lọc.')}</td></tr>`;
     } else {
       body.innerHTML = filteredRows.map((row, idx) => `<tr data-idx="${idx}">${cfg.columns.map(k => `<td>${formatCell(k,row[k])}</td>`).join('')}</tr>`).join('');
     }
@@ -231,7 +233,7 @@
     const common = { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true, ticks:{precision:0}}, x:{ticks:{autoSkip:false,maxRotation:55,minRotation:0}}} };
     charts.country = new Chart($('countryChart'), {type:'bar', data:{labels:countryCounts.map(x=>x[0]), datasets:[{data:countryCounts.map(x=>x[1]), backgroundColor:'#2f6fb6', borderRadius:4}]}, options:common});
     charts.status = new Chart($('statusChart'), {type:'doughnut', data:{labels:statusCounts.map(x=>x[0]), datasets:[{data:statusCounts.map(x=>x[1]), backgroundColor:['#16825d','#a65d00','#6f42c1','#b02a37','#2f6fb6','#718096']}]}, options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:12,font:{size:10}}}}}});
-    charts.dataset = new Chart($('datasetChart'), {type:'bar', data:{labels:['Nguồn','Creator','Tạp chí'],datasets:[{data:[src.length,cr.length,mag.length],backgroundColor:['#163b64','#1463ff','#6f42c1'],borderRadius:5}]}, options:common});
+    charts.dataset = new Chart($('datasetChart'), {type:'bar', data:{labels:[tr('sourcesTab','Nguồn'),tr('creatorsTab','Creator'),tr('magazinesTab','Tạp chí')],datasets:[{data:[src.length,cr.length,mag.length],backgroundColor:['#163b64','#1463ff','#6f42c1'],borderRadius:5}]}, options:common});
   }
 
   function csvEscape(v) { const s = clean(v).replace(/"/g,'""'); return `"${s}"`; }
@@ -253,5 +255,6 @@
     await loadWorkbookFromArrayBuffer(await file.arrayBuffer(), `Tệp cục bộ: ${file.name} (chỉ xem thử, không upload lên GitHub)`);
   });
 
+  window.addEventListener('vm:langchange', () => { buildTabs(); populateFilters(); renderTable(); updateCharts(); });
   loadDefault();
 })();
