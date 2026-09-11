@@ -1,5 +1,6 @@
 (() => {
   const $=id=>document.getElementById(id);
+  const tr=(k,f='')=>window.VM_I18N?VM_I18N.t(k):(f||k);
   let items=[],health=[];
   const clean=v=>(v??'').toString().trim();
   const esc=s=>clean(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
@@ -31,8 +32,8 @@
   function fillFilters(){
     const src=[...new Set(items.map(x=>clean(x.source_name)).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'vi'));
     const kinds=[...new Set(health.map(x=>clean(x.kind)).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'vi'));
-    $('source').innerHTML='<option value="">Tất cả nguồn</option>'+src.map(x=>`<option>${esc(x)}</option>`).join('');
-    $('kind').innerHTML='<option value="">Tất cả loại</option>'+kinds.map(x=>`<option>${esc(x)}</option>`).join('');
+    $('source').innerHTML=`<option value="">${window.VM_I18N&&VM_I18N.lang==='ko'?'전체 소스':'Tất cả nguồn'}</option>`+src.map(x=>`<option>${esc(x)}</option>`).join('');
+    $('kind').innerHTML=`<option value="">${window.VM_I18N&&VM_I18N.lang==='ko'?'전체 유형':'Tất cả loại'}</option>`+kinds.map(x=>`<option>${esc(x)}</option>`).join('');
   }
   function filtered(){
     const q=clean($('q').value).toLowerCase(),s=$('source').value,k=$('kind').value;
@@ -48,9 +49,10 @@
   function renderLinkOnly(){
     const q=clean($('linkQ').value).toLowerCase();
     const rows=health.filter(x=>x.link_only || !x.ok).filter(x=>!q||[x.source_name,x.country,x.kind,x.homepage,x.error].some(v=>clean(v).toLowerCase().includes(q)));
-    $('linkOnly').innerHTML=rows.length?rows.map(x=>`<div class="link-row"><div><div class="health-name">${esc(x.source_name)}</div><div class="meta">${esc(x.country)} · ${esc(x.kind)}${x.link_only?' · link-only':' · chưa lấy được bài'}</div>${x.error?`<div class="meta" style="color:#b42318">${esc(x.error)}</div>`:''}</div><a class="link-open" href="${esc(x.homepage)}" target="_blank" rel="noopener">Mở nguồn ↗</a></div>`).join(''):'<div class="empty-state">Không có nguồn link-only phù hợp.</div>';
+    $('linkOnly').innerHTML=rows.length?rows.map(x=>`<div class="link-row"><div><div class="health-name">${esc(x.source_name)}</div><div class="meta">${esc(x.country)} · ${esc(x.kind)}${x.link_only?' · link-only':' · chưa lấy được bài'}</div>${x.error?`<div class="meta" style="color:#b42318">${esc(x.error)}</div>`:''}</div><a class="link-open" href="${esc(x.homepage)}" target="_blank" rel="noopener">${tr('openSource','Mở nguồn ↗')}</a></div>`).join(''):'<div class="empty-state">Không có nguồn link-only phù hợp.</div>';
   }
   ['q','source','kind'].forEach(id=>$(id).addEventListener(id==='q'?'input':'change',renderFeed));
   $('linkQ').addEventListener('input',renderLinkOnly);
+  window.addEventListener('vm:langchange',()=>{fillFilters();renderFeed();renderHealth();renderLinkOnly();});
   load();
 })();
