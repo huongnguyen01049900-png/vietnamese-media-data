@@ -283,9 +283,6 @@ body.has-img .s1 > *, body.has-img .s8 > * { position: relative; }
 .axchips span { font-size: clamp(12px, 1.25vw, 16px); border: 1px solid var(--rule); background: rgba(255,255,255,.35); border-radius: 999px; padding: 4px 12px; cursor: help; }
 .axchips span small { color: var(--muted); font-variant-numeric: tabular-nums; margin-left: 4px; }
 .axchips span.tech { border-style: dashed; color: var(--muted); }
-.sankey { opacity: 0; pointer-events: none; }
-.axstage.flow .axlists { opacity: 0; pointer-events: none; }
-.axstage.flow .sankey { opacity: 1; pointer-events: auto; }
 #sankey { width: 100%; height: auto; max-height: 62vh; display: block; }
 #sankey text { font-family: var(--f-sans); font-size: 14px; fill: var(--ink); }
 #sankey .num { fill: var(--muted); font-size: 12.5px; }
@@ -300,9 +297,7 @@ body.has-img .s1 > *, body.has-img .s8 > * { position: relative; }
 .axex { grid-column: 1 / -1; border: 1.5px dashed var(--ink-2); border-radius: 10px; padding: 10px 16px; font-size: clamp(14px, 1.45vw, 19px); line-height: 1.5; }
 .axex .tag0 { font-size: .8em; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--mark); margin-right: 6px; }
 .axex .arr { color: var(--mark); font-weight: 700; margin: 0 4px; }
-.axmatrix { opacity: 0; pointer-events: none; overflow-x: auto; }
-.axstage.mx .axlists { opacity: 0; pointer-events: none; }
-.axstage.mx .axmatrix { opacity: 1; pointer-events: auto; }
+.axmatrix { overflow-x: auto; }
 table.mx { width: 100%; border-collapse: separate; border-spacing: 6px; table-layout: fixed; font-size: clamp(12px, 1.3vw, 17px); }
 table.mx th { font-weight: 700; text-align: left; vertical-align: middle; padding: 6px 8px; }
 table.mx thead th { font-size: .92em; border-bottom: 2px solid var(--ink); }
@@ -320,6 +315,32 @@ table.mx tbody tr td:nth-child(2):not(.e) { outline: 2px solid var(--mark); outl
   .axchips { gap: 5px; } .axchips span { font-size: 12.5px; padding: 2px 9px; }
   .axex { font-size: 15px; padding: 7px 12px; }
   .axlists { gap: 10px 40px; }
+}
+
+.axtab, .axmatrix, .sankey { opacity: 0; pointer-events: none; }
+.axtab.show, .axmatrix.show, .sankey.show { opacity: 1; pointer-events: auto; }
+.cbh { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; border-top: 3px solid var(--ink); padding-top: 6px; margin-bottom: 6px; }
+.cbh b { font-family: var(--f-serif); font-size: clamp(22px, 2.4vw, 32px); }
+.cbh span { font-size: clamp(13px, 1.3vw, 17px); color: var(--ink-2); }
+table.cb { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: clamp(11px, 1.05vw, 14.5px); line-height: 1.3; }
+table.cb th { text-align: left; font-weight: 600; color: var(--muted); font-size: .88em; padding: 3px 8px; border-bottom: 1.5px solid var(--ink); }
+table.cb td { padding: 4px 8px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+table.cb th:nth-child(1), table.cb td.n { width: 2.4em; color: var(--muted); text-align: right; padding-right: 4px; }
+table.cb th:nth-child(2) { width: 24%; } table.cb th:nth-child(3) { width: 40%; } table.cb th:nth-child(5) { width: 4.6em; }
+table.cb td.g { font-weight: 700; }
+table.cb td.x i { font-family: var(--f-serif); }
+table.cb td.x small { display: block; color: var(--muted); font-size: .85em; }
+table.cb td.c, table.cb th.c { text-align: right; font-variant-numeric: tabular-nums; }
+table.cb tr.tech td { color: var(--muted); border-top: 1px dashed var(--muted); }
+@media (max-width: 820px) { table.cb th:nth-child(3), table.cb td:nth-child(3) { display: none; } table.cb th:nth-child(2) { width: 40%; } }
+.scene.s5top { justify-content: flex-start; padding-top: clamp(20px, 4vh, 48px); }
+.s5top .inner { gap: 10px; }
+@media (max-height: 820px) {
+  table.cb { font-size: 12px; line-height: 1.25; }
+  table.cb td { padding: 2px 6px; } table.cb th { padding: 2px 6px; }
+  table.cb td.x small { display: inline; margin-left: 6px; }
+  .cbh { margin-bottom: 2px; padding-top: 3px; } .cbh b { font-size: 22px; }
+  .s5top .axnote { font-size: 16px; min-height: 2.2em; }
 }
 .axnote { text-align: center; font-family: var(--f-serif); font-size: clamp(17px, 2vw, 27px); min-height: 2.8em; color: var(--ink); }
 
@@ -418,25 +439,12 @@ table.mx tbody tr td:nth-child(2):not(.e) { outline: 2px solid var(--mark); outl
   </section>
 
   <!-- Hai trục mã hóa -->
-  <section class="scene" data-steps="3" data-hook="sAxes" aria-label="Hai trục mã hóa">
+  <section class="scene s5top" data-steps="4" data-hook="sAxes" aria-label="Hai trục mã hóa">
     <div class="inner wide">
       <p class="eyebrow">Mỗi đơn vị văn bản được mã hóa trên hai trục độc lập</p>
       <div class="axstage">
-        <div class="axlists" id="axlists">
-          <div class="axcol">
-            <p class="axh"><b>Hình thức</b><span>Văn bản đang làm gì? · 11 nhóm</span></p>
-            <p class="axdef">Cách văn bản được tổ chức để làm một việc với người đọc: ra lệnh, báo tin, kể lại sự việc, giải thích một tri thức, kể chuyện, liệt kê giá cả.</p>
-            <p class="axwhy">Dùng “hình thức” thay cho “thể loại” để không áp hệ thống thể loại báo chí hiện đại lên một tư liệu còn mang tính nguyên hợp.</p>
-            <div class="axchips" id="formChips"></div>
-          </div>
-          <div class="axcol">
-            <p class="axh"><b>Chủ đề</b><span>Văn bản nói về lĩnh vực gì? · 15 nhóm</span></p>
-            <p class="axdef">Lĩnh vực mà văn bản chủ yếu nói đến: pháp luật, kinh tế, giao thông, nông nghiệp, văn hóa – xã hội…</p>
-            <p class="axwhy">Mỗi đơn vị có một hình thức chính và một chủ đề chính; mã phụ được giữ nhưng không cộng vào bảng phân bố.</p>
-            <div class="axchips" id="topicChips"></div>
-          </div>
-          <div class="axex"><span class="tag0">Ví dụ · số 2, 15/2/1866</span> <b>“Giá thuê xe trong thành”</b> <span class="arr">→</span> hình thức: <b>văn bản công quyền</b> (đặt giá, ràng buộc người thuê) <span class="arr">·</span> chủ đề: <b>giao thông</b></div>
-        </div>
+        <div class="axtab" id="axForms"></div>
+        <div class="axtab" id="axTopics"></div>
         <div class="axmatrix" id="axmatrix">
           <table class="mx">
             <thead><tr><th class="corner">Hình thức ↓ · Chủ đề →</th><th class="colhl">Pháp luật – an ninh</th><th>Giao thông</th><th>Nông nghiệp</th><th>Văn hóa – xã hội</th></tr></thead>
@@ -599,11 +607,11 @@ table.mx tbody tr td:nth-child(2):not(.e) { outline: 2px solid var(--mark); outl
       '[bấm 1] Lớp thứ nhất là chuyên mục. Chúng tôi xác định chuyên mục theo nhãn và vị trí trên mặt báo, không suy ngược từ nội dung. Số này có Công vụ chạy từ trang 1 sang trang 4, và Giá chợ ở trang 4. Số này không có Tạp vụ. Đầu báo và lịch con nước không được mã hóa.',
       '[bấm 2] Lớp thứ hai là đơn vị văn bản: 23 đơn vị, gồm 14 Công vụ và 9 Giá chợ. Ranh giới dựa vào gạch ngang, nhan đề, chữ ký. Bảng giá của mỗi chợ là một đơn vị.',
       '[bấm 3] Và đây là lý do phải tách trục. Đơn vị số 8, “Phép lập vườn”, nằm trong Công vụ nhưng là một bài hướng dẫn trồng cây. Đơn vị số 14 là một câu chuyện về bà mẹ và đứa con trai bướng bỉnh, cũng nằm trong Công vụ. Nằm trong Công vụ không có nghĩa là văn bản công quyền.'] },
-    { t: '2:00', p: [
-      'Vì vậy, ngoài chuyên mục, mỗi đơn vị còn được mã hóa trên hai trục độc lập. Hình thức là cách văn bản được tổ chức để làm một việc với người đọc: ra lệnh, báo tin, kể lại sự việc, giải thích một tri thức, kể chuyện, liệt kê giá. Chúng tôi dùng chữ “hình thức” chứ không dùng “thể loại”, để không áp hệ thống thể loại báo chí hiện đại lên một tư liệu còn mang tính nguyên hợp. Chủ đề là lĩnh vực văn bản chủ yếu nói đến. Mỗi đơn vị có một hình thức chính và một chủ đề chính.',
-      'Ví dụ: “Giá thuê xe trong thành” ở số báo vừa xem. Nó đặt mức giá và ràng buộc người thuê, nên hình thức là văn bản công quyền; nhưng nó nói về xe cộ đi lại, nên chủ đề là giao thông.',
-      '[bấm 1] Đặt các đơn vị của chính số báo này vào một bảng. Hàng ngang: cùng là văn bản công quyền, nhưng nói về pháp luật, giao thông, nông nghiệp. Cột dọc: cùng chủ đề pháp luật – an ninh, nhưng là lệnh cấm, là tin về một trận đánh cướp, là bài giới thiệu khám đường bên Pháp. Một hình thức có nhiều chủ đề, một chủ đề có nhiều hình thức.',
-      '[bấm 2] Trên toàn bộ 888 đơn vị cũng vậy: mỗi dải nối một hình thức với một chủ đề. [bấm 3] Văn bản công quyền trải trên 13 chủ đề; thông tin kinh tế đến từ 9 hình thức. Hình thức và chủ đề không suy ra được từ nhau, và cũng không suy ra được từ tên chuyên mục.'] },
+    { t: '2:30', p: [
+      'Vì vậy, ngoài chuyên mục, mỗi đơn vị còn được mã hóa trên hai trục độc lập. Trục thứ nhất là hình thức: văn bản đang làm gì với người đọc. Bảng này là 11 hình thức cùng khái niệm và một ví dụ thật cho mỗi nhóm. Chẳng hạn “Điều lệ về bày nghề cá” là văn bản công quyền, vì nó tạo ra quy định; “Lời rao đấu thầu chở đồ ra Côn-nôn” là lời rao, vì nó mời người đọc nhận thầu; “Yết thị đổi triều bên Pháp” chỉ cho biết một sự việc, nên là thông báo. Chúng tôi dùng chữ “hình thức” chứ không dùng “thể loại”, để không áp hệ thống thể loại báo chí hiện đại lên một tư liệu còn mang tính nguyên hợp.',
+      '[bấm 1] Trục thứ hai là chủ đề: văn bản chủ yếu nói về lĩnh vực gì, gồm 15 nhóm. Nguyên tắc là phân loại theo trọng tâm của văn bản, không theo thân phận nhân vật: có quan chức xuất hiện không có nghĩa là chính trị – hành chính. “Đa chủ đề” chỉ là mã kỹ thuật cho tin tổng hợp, không phải nhóm thứ 16.',
+      '[bấm 2] Đặt các đơn vị của chính số báo vừa xem vào một bảng. Hàng ngang: cùng là văn bản công quyền, nhưng nói về pháp luật, giao thông, nông nghiệp. Cột dọc: cùng chủ đề pháp luật – an ninh, nhưng là lệnh cấm, là tin đánh cướp, là bài giới thiệu khám đường. Một hình thức có nhiều chủ đề, một chủ đề có nhiều hình thức.',
+      '[bấm 3] Trên toàn bộ 888 đơn vị cũng vậy. [bấm 4] Văn bản công quyền trải trên 13 chủ đề; thông tin kinh tế đến từ 9 hình thức. Hình thức và chủ đề không suy ra được từ nhau, và cũng không suy ra được từ tên chuyên mục.'] },
     { t: '0:30', p: [
       'Tóm lại, dữ liệu của chúng tôi: [bấm 1] 61 số báo hiện còn, 1865 đến 1871. [bấm 2] 888 đơn vị văn bản: 280 Công vụ, 511 Tạp vụ, 97 Giá chợ. [bấm 3] 11 hình thức. [bấm 4] 15 chủ đề. Dữ liệu được đọc và mã hóa lại qua ba vòng vào tháng 2, 5 và 8 năm 2026. Phân tích mang tính mô tả: tần số, tỷ lệ, chênh lệch điểm phần trăm.'] },
     { t: '2:00', p: [
@@ -622,7 +630,7 @@ table.mx tbody tr td:nth-child(2):not(.e) { outline: 2px solid var(--mark); outl
       'Tạp vụ là nơi thay đổi mạnh nhất. Đây là thời Potteaux: tin 41,5%, tri thức 7,5%, văn chương 12,8%.',
       '[bấm 1] Sang thời Trương Vĩnh Ký: tin gần như giữ nguyên, 44,8%. Tri thức gần gấp ba, 21%. Văn chương gần như biến mất, 0,7%. Ở chủ đề cũng vậy: tai nạn – thiên tai 9,2 → 28%, lịch sử – địa lý 4,7 → 15,4%, quân sự 9,5% → 0.',
       '[bấm 2] Không phải tri thức thay thế tin tức. Mà là tái phân bố trọng lượng giữa các hình thức.'] },
-    { t: '3:00', p: [
+    { t: '2:30', p: [
       'Câu hỏi then chốt: thay đổi bắt đầu từ khi nào? Nếu chỉ chia theo người phụ trách, ta dễ mặc định 16/9/1869 là điểm gãy. Vì vậy chúng tôi tách thời Potteaux làm hai pha tại tháng 6/1869: pha A 34 số, pha B 11 số, pha C (Trương Vĩnh Ký) 15 số.',
       '[bấm 1] Ba chỉ báo trong Tạp vụ cùng đi lên: bài tri thức 6,1 → 12,2 → 21,0%; lịch sử – địa lý 3,2 → 9,8 → 15,4%; đơn vị có nhan đề 28,9 → 65,9 → 79,0%.',
       '[bấm 2] Và đây là ngày 16/9/1869. Các đường đi xuyên qua nó, không gãy. [bấm 3] Xu hướng đã xuất hiện ở cuối thời Potteaux, rồi được củng cố dưới thời Trương Vĩnh Ký.',
@@ -833,9 +841,11 @@ table.mx tbody tr td:nth-child(2):not(.e) { outline: 2px solid var(--mark); outl
     ['Ngoại giao', 8, 'Bang giao, phái bộ, sứ thần.'],
     ['Khoa học – kỹ thuật', 7, 'Kiến thức khoa học tự nhiên, kỹ thuật.'],
   ];
-  const chip = ([n, c, d], cls = '') => `<span class="${cls}" title="${d}">${n}<small>${c}</small></span>`;
-  document.getElementById('formChips').innerHTML = FORMS.map(f => chip(f)).join('');
-  document.getElementById('topicChips').innerHTML = TOPICS.map(t => chip(t)).join('') + chip(['Đa chủ đề', 42, 'Mã kỹ thuật cho tin tổng hợp không có lĩnh vực chi phối; không phải chủ đề thứ 16.'], 'tech');
+  /* Bảng khái niệm: định nghĩa theo sheet "Chú giải mã hóa"; ví dụ là đơn vị thật trong corpus; số đơn vị trên N = 888 */
+  const CB = {"forms": [["Tin – tường thuật sự kiện", 228, "Thuật lại một sự việc thống nhất, có nhân vật, thời gian, địa điểm hoặc diễn biến.", "Người đi làm củi bị cọp vồ", "24/10/1869"], ["Văn bản công quyền – quy phạm – quyết định", 207, "Tạo hoặc cụ thể hóa quyền, nghĩa vụ: ra lệnh, cấm, cho phép, bổ nhiệm, đặt mức thu, đặt thủ tục, ân xá, bản án.", "Điều lệ về bày nghề cá (4 điều)", "15/2/1866"], ["Bảng giá – bảng kê – danh sách – thống kê", 163, "Thông tin trình bày chủ yếu dưới dạng liệt kê có cấu trúc: giá chợ, danh sách, bảng số liệu.", "Giá chợ Tân-an", "15/2/1866"], ["Bài tri thức – khảo cứu – giải thích", 61, "Cung cấp, mô tả, giải thích hoặc hướng dẫn một tri thức.", "Phép làm thuốc cho trâu", "15/6/1866"], ["Tin tổng hợp", 52, "Một đơn vị gồm nhiều mẩu tin độc lập, chưa đủ căn cứ tách thành các đơn vị riêng.", "Tin tàu thuyền tháng 4–5", "15/5/1866"], ["Truyện – văn chương", 52, "Kể chuyện, có nhân vật, tình tiết, cốt truyện hoặc dụng ý luân lý.", "Chuyện người nhà quê làm phước", "15/1/1866"], ["Lời rao – quảng cáo – đấu giá – đấu thầu", 38, "Mời người đọc tham gia giao dịch: mua, thuê, trả giá, nhận thầu, dùng dịch vụ.", "Lời rao đấu thầu chở đồ nhà nước ra Côn-nôn", "8/3/1870"], ["Nghị luận – bình luận – khuyến dụ – giáo huấn", 33, "Triển khai quan điểm, đánh giá, lập luận hoặc lời khuyên nhằm thuyết phục người đọc.", "Lời khuyên người ta đừng đánh bạc (bài thơ)", "15/9/1871"], ["Thông báo – yết thị", 32, "Chỉ cho biết một sự việc, thời gian, thể lệ; không tạo quy tắc hay giao dịch mới.", "Yết thị đổi triều bên Pháp: lập nền cộng hòa", "15/11/1870"], ["Thư từ – văn thư – báo cáo đăng nguyên dạng", 12, "Đăng lại thư, văn thư, báo cáo, giữ tương đối nguyên cấu trúc của văn bản gốc.", "Thơ Bình-an: dân ăn tết, làng xóm chưa yên", "15/4/1867"], ["Hỏi đáp – bảng hỏi – đối thoại – phỏng vấn", 10, "Tổ chức chủ yếu bằng câu hỏi – trả lời, bảng hỏi hoặc trao đổi giữa nhiều tiếng nói.", "Sách hỏi, phần thứ ba", "1/8/1869"]], "topics": [["Kinh tế – tài chính – thương mại", 208, "Giá cả, tiền tệ, thuế khóa, mua bán, thị trường, đấu giá, đấu thầu.", "Yết thị Hội Đấu Xảo Chung Nam 1867", "15/4/1866"], ["Pháp luật – tư pháp – an ninh", 147, "Tội phạm, bắt giữ, xét xử, hình phạt; quy định trật tự, cấm, phạt.", "Hóc-môn: án mạng bà góa bán hàng", "8/3/1870"], ["Chính trị – hành chính", 105, "Bộ máy cai trị, chức vụ, bổ nhiệm, địa giới. Không mã chỉ vì có quan chức xuất hiện.", "Phân hạt tòa án các huyện", "15/6/1866"], ["Văn hóa – xã hội – phong tục – đời sống", 102, "Ngôn ngữ, tên gọi, phong tục, tập quán, quan hệ xã hội, đời sống.", "Đám chôn con hoàng Caomên tại Sài-gòn", "15/5/1867"], ["Tai nạn – thiên tai – sự cố", 77, "Chìm ghe, cháy, bão, hạn hán, thú dữ, sự cố bất ngờ.", "Vụ ghe mía chìm tại Miếu Cô-đô", "15/8/1865"], ["Lịch sử – địa lý", 42, "Triều đại, nhân vật và sự kiện quá khứ, quốc gia, vùng đất, địa hình, các dân tộc theo không gian địa lý.", "Bài địa lý về nước Italie", "1/4/1870"], ["Quân sự – chiến sự", 39, "Chiến dịch, trận đánh, binh lính, giao tranh.", "Tin chiến sự ngày 26 Juin", "15/7/1866"], ["Giáo dục – khoa cử", 34, "Trường học, thi cử, học bổng, du học.", "Danh sách học trò Annam đi Pháp học", "15/4/1867"], ["Nông nghiệp – sản xuất – nghề nghiệp", 30, "Trồng trọt, chăn nuôi, nghề thủ công, phương pháp sản xuất.", "Máy làm đường", "15/3/1866"], ["Giao thông – tàu thuyền – liên lạc", 15, "Đường sá, xe cộ, tàu thuyền, tuyến đi lại, bưu chính.", "Tin khai kinh Suez", "24/9/1869"], ["Báo chí – xuất bản – truyền thông", 13, "Lời tòa soạn, kêu gọi gửi bài, đính chính, cách dùng tiếng, nhà in, nhật trình.", "Khuyên người ta gởi tin cho nhựt trình", "24/9/1869"], ["Y tế – sức khỏe", 10, "Bệnh tật, dịch bệnh, chữa trị, nhà thương.", "Bàn về bệnh ban cua lưỡi trắng và cách chữa", "15/8/1865"], ["Tôn giáo – tín ngưỡng", 9, "Giáo lý, thần linh, nghi lễ, mê tín; kể cả bài phê phán tín ngưỡng.", "Lễ kiệu ảnh tại nhà thờ Sài-gòn", "15/7/1865"], ["Ngoại giao – quan hệ đối ngoại", 8, "Bang giao giữa các chính quyền, phái bộ, sứ thần.", "Tàu Couleuvre đến Huế trao phần thưởng của Hoàng đế Pháp cho Vua Annam", "15/7/1868"], ["Khoa học – kỹ thuật", 7, "Giải thích cơ chế tự nhiên: sinh học, thiên văn, khí tượng, vật lý, máy móc, đo lường.", "Chuyện về cây mắc cỡ", "15/5/1868"]], "tech": ["Đa chủ đề", 42, "Mã kỹ thuật cho tin tổng hợp gồm nhiều lĩnh vực độc lập, không lĩnh vực nào chi phối; không phải chủ đề thứ 16.", "Tin tàu Sarthe", "15/3/1866"]};
+  const cbTable = (title, sub, rows, tech) => `<p class="cbh"><b>${title}</b><span>${sub}</span></p><table class="cb"><thead><tr><th class="n">#</th><th>Nhóm</th><th>Khái niệm</th><th>Ví dụ trong Gia Định Báo</th><th class="c">Số đv</th></tr></thead><tbody>${rows.map((r, i) => `<tr><td class="n">${i + 1}</td><td class="g">${r[0]}</td><td>${r[2]}</td><td class="x"><i>${r[3]}</i><small>${r[4]}</small></td><td class="c">${r[1]}</td></tr>`).join('')}${tech ? `<tr class="tech"><td class="n">+</td><td class="g">${tech[0]}</td><td>${tech[2]}</td><td class="x"><i>${tech[3]}</i><small>${tech[4]}</small></td><td class="c">${tech[1]}</td></tr>` : ''}</tbody></table>`;
+  document.getElementById('axForms').innerHTML = cbTable('Hình thức', 'Văn bản đang LÀM GÌ? · 11 nhóm', CB.forms);
+  document.getElementById('axTopics').innerHTML = cbTable('Chủ đề', 'Văn bản chủ yếu NÓI VỀ lĩnh vực gì? · 15 nhóm', CB.topics, CB.tech);
 
   const FLOWS = [["Tin tổng hợp", "Đa chủ đề", 42], ["Tin – tường thuật sự kiện", "Pháp luật – tư pháp – an ninh", 55], ["Tin – tường thuật sự kiện", "Tôn giáo – tín ngưỡng", 5], ["Tin – tường thuật sự kiện", "Chính trị – hành chính", 13], ["Thông báo – yết thị", "Báo chí – xuất bản – truyền thông", 9], ["Bảng giá – bảng kê – danh sách – thống kê", "Kinh tế – tài chính – thương mại", 133], ["Văn bản công quyền – quy phạm – quyết định", "Kinh tế – tài chính – thương mại", 16], ["Văn bản công quyền – quy phạm – quyết định", "Pháp luật – tư pháp – an ninh", 73], ["Thông báo – yết thị", "Văn hóa – xã hội – phong tục – đời sống", 5], ["Tin – tường thuật sự kiện", "Tai nạn – thiên tai – sự cố", 71], ["Tin – tường thuật sự kiện", "Quân sự – chiến sự", 31], ["Tin – tường thuật sự kiện", "Văn hóa – xã hội – phong tục – đời sống", 22], ["Tin – tường thuật sự kiện", "Ngoại giao – quan hệ đối ngoại", 7], ["Tin – tường thuật sự kiện", "Nông nghiệp – sản xuất – nghề nghiệp", 8], ["Bài tri thức – khảo cứu – giải thích", "Văn hóa – xã hội – phong tục – đời sống", 7], ["Bảng giá – bảng kê – danh sách – thống kê", "Chính trị – hành chính", 5], ["Nghị luận – bình luận – khuyến dụ – giáo huấn", "Văn hóa – xã hội – phong tục – đời sống", 11], ["Tin – tường thuật sự kiện", "Kinh tế – tài chính – thương mại", 5], ["Lời rao – quảng cáo – đấu giá – đấu thầu", "Kinh tế – tài chính – thương mại", 35], ["Truyện – văn chương", "Văn hóa – xã hội – phong tục – đời sống", 47], ["Văn bản công quyền – quy phạm – quyết định", "Giao thông – tàu thuyền – liên lạc", 5], ["Văn bản công quyền – quy phạm – quyết định", "Nông nghiệp – sản xuất – nghề nghiệp", 8], ["Văn bản công quyền – quy phạm – quyết định", "Chính trị – hành chính", 74], ["Bài tri thức – khảo cứu – giải thích", "Nông nghiệp – sản xuất – nghề nghiệp", 6], ["Nghị luận – bình luận – khuyến dụ – giáo huấn", "Chính trị – hành chính", 5], ["Thông báo – yết thị", "Kinh tế – tài chính – thương mại", 8], ["Văn bản công quyền – quy phạm – quyết định", "Giáo dục – khoa cử", 14], ["Bài tri thức – khảo cứu – giải thích", "Khoa học – kỹ thuật", 7], ["Bài tri thức – khảo cứu – giải thích", "Lịch sử – địa lý", 34], ["Bảng giá – bảng kê – danh sách – thống kê", "Giáo dục – khoa cử", 8], ["Bảng giá – bảng kê – danh sách – thống kê", "Pháp luật – tư pháp – an ninh", 8], ["Hỏi đáp – bảng hỏi – đối thoại – phỏng vấn", "Kinh tế – tài chính – thương mại", 7], ["Bảng giá – bảng kê – danh sách – thống kê", "Giao thông – tàu thuyền – liên lạc", 5]];
   const short = s => ({
@@ -904,19 +914,21 @@ table.mx tbody tr td:nth-child(2):not(.e) { outline: 2px solid var(--mark); outl
       document.getElementById('isscap').innerHTML = issCaption(step);
     },
     sAxes(step) {
-      const ax = document.querySelector('.axstage');
-      ax.classList.toggle('mx', step === 1);
-      ax.classList.toggle('flow', step >= 2);
+      const show = (id, on) => document.getElementById(id).classList.toggle('show', on);
+      show('axForms', step === 0); show('axTopics', step === 1); show('axmatrix', step === 2); show('sankeyBox', step >= 3);
       const sv = document.getElementById('sankey');
-      sv.classList.toggle('hl', step >= 3);
+      sv.classList.toggle('hl', step >= 4);
       sv.querySelectorAll('.fl').forEach(p => {
-        p.classList.toggle('on', step >= 3 && p.dataset.f.startsWith('Văn bản công quyền'));
-        p.classList.toggle('on2', step >= 3 && !p.dataset.f.startsWith('Văn bản công quyền') && p.dataset.c.startsWith('Kinh tế'));
+        p.classList.toggle('on', step >= 4 && p.dataset.f.startsWith('Văn bản công quyền'));
+        p.classList.toggle('on2', step >= 4 && !p.dataset.f.startsWith('Văn bản công quyền') && p.dataset.c.startsWith('Kinh tế'));
       });
-      document.getElementById('axnote').innerHTML = step === 0 ? '&nbsp;'
-        : step === 1 ? 'Cùng một số báo, cùng mục Công vụ: <span style="color:var(--cv)">một hình thức, nhiều chủ đề</span> (hàng ngang) · <span style="color:var(--mark)">một chủ đề, nhiều hình thức</span> (cột dọc).'
-        : step === 2 ? '888 đơn vị · mỗi dải nối một hình thức với một chủ đề <span style="color:var(--muted);font-size:.7em">(vẽ các tổ hợp từ 5 đơn vị trở lên: 789/888)</span>'
-        : '<span style="color:var(--cv)">Văn bản công quyền</span> trải trên 13 chủ đề. Thông tin <span style="color:var(--gc)">kinh tế</span> đến từ 9 hình thức. Vì vậy phải tách hai trục.<br><span style="color:var(--muted);font-size:.62em">Đếm trên toàn bộ 888 đơn vị; sơ đồ chỉ vẽ các dải từ 5 đơn vị trở lên.</span>';
+      const notes = [
+        'Dùng “hình thức” thay cho “thể loại” để không áp hệ thống thể loại báo chí hiện đại lên một tư liệu còn mang tính nguyên hợp.',
+        'Phân loại theo trọng tâm của văn bản, không theo thân phận nhân vật. Mỗi đơn vị có một hình thức chính và một chủ đề chính.',
+        'Cùng một số báo, cùng mục Công vụ: <span style="color:var(--cv)">một hình thức, nhiều chủ đề</span> (hàng ngang) · <span style="color:var(--mark)">một chủ đề, nhiều hình thức</span> (cột dọc).',
+        '888 đơn vị · mỗi dải nối một hình thức với một chủ đề <span style="color:var(--muted);font-size:.7em">(vẽ các tổ hợp từ 5 đơn vị trở lên: 789/888)</span>',
+        '<span style="color:var(--cv)">Văn bản công quyền</span> trải trên 13 chủ đề. Thông tin <span style="color:var(--gc)">kinh tế</span> đến từ 9 hình thức. Vì vậy phải tách hai trục.<br><span style="color:var(--muted);font-size:.62em">Đếm trên toàn bộ 888 đơn vị; sơ đồ chỉ vẽ các dải từ 5 đơn vị trở lên.</span>'];
+      document.getElementById('axnote').innerHTML = notes[step] || '&nbsp;';
     },
     sCtt(step) {
       const g = document.getElementById('igrid');
