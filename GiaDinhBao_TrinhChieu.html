@@ -450,6 +450,25 @@ table.row td { border-bottom: 1px solid var(--rule); padding: 4px 8px; }
 .hud .nav { pointer-events: auto; font: 600 20px/1 var(--f-sans); width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--rule); background: var(--paper); color: var(--ink-2); cursor: pointer; opacity: .55; transition: opacity .2s; }
 .hud .nav:hover, .hud .nav:focus-visible { opacity: 1; }
 .hud .prog { display: flex; align-items: center; gap: 10px; }
+
+/* ---- nghiên cứu trước ---- */
+.prior { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: clamp(16px, 3vw, 44px); align-items: start; }
+@media (max-width: 860px) { .prior { grid-template-columns: 1fr; } }
+.pq { margin: 0; border-left: 5px solid var(--tvk); padding: 4px 0 4px clamp(14px, 2vw, 26px); display: grid; gap: 12px; }
+.pq .en { font-family: var(--f-serif); font-style: italic; font-size: clamp(20px, 2.5vw, 34px); line-height: 1.3; color: var(--ink); }
+.pq .en::before { content: "“"; color: var(--tvk); }
+.pq .en::after { content: "”"; color: var(--tvk); }
+.pq .vi { font-size: clamp(14px, 1.45vw, 19px); color: var(--ink-2); line-height: 1.45; }
+.pq .vi small { display: block; font-size: .78em; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); font-weight: 600; margin-bottom: 2px; }
+.pq cite, .pc cite { font-style: normal; font-weight: 700; font-size: clamp(13px, 1.3vw, 17px); color: var(--ink); }
+.pcs { display: grid; gap: clamp(10px, 2vh, 18px); }
+.pc { border-top: 2px solid var(--rule); padding-top: 10px; display: grid; gap: 6px; }
+.pc p { font-family: var(--f-serif); font-size: clamp(16px, 1.75vw, 23px); line-height: 1.35; }
+.pc small { color: var(--muted); font-size: clamp(11px, 1.05vw, 13.5px); }
+.but { display: grid; grid-template-columns: auto 1fr; gap: 6px 18px; align-items: baseline; background: var(--paper-2); border-radius: 10px; padding: clamp(10px, 2vh, 18px) clamp(14px, 2vw, 24px); }
+.but b { font-family: var(--f-serif); font-style: italic; color: var(--mark); font-size: clamp(20px, 2.3vw, 30px); }
+.but span { font-size: clamp(14px, 1.45vw, 19px); color: var(--ink-2); }
+.but q { grid-column: 1 / -1; font-family: var(--f-serif); font-weight: 700; font-size: clamp(18px, 2.1vw, 28px); quotes: none; }
 </style>
 
 </head>
@@ -457,7 +476,7 @@ table.row td { border-bottom: 1px solid var(--rule); padding: 4px 8px; }
 <div class="deck" id="deck">
 
   <!-- 0 · tiêu đề -->
-  <section class="scene s0" data-steps="0" aria-label="Trang tiêu đề">
+  <section class="scene s0" data-steps="0" data-label="" aria-label="Trang tiêu đề">
     <div class="inner">
       <div class="conf"><span class="k">Hội thảo khoa học quốc tế</span><span class="n">“Văn học và nghệ thuật Đông Á đầu thế kỉ XXI từ góc nhìn văn hóa”</span></div>
       <h1>Từ <span class="p">Ernest Potteaux</span><br>đến <span class="t">Trương Vĩnh Ký</span></h1>
@@ -505,6 +524,26 @@ table.row td { border-bottom: 1px solid var(--rule); padding: 4px 8px; }
           <p class="fact small"><span>ba chuyên mục được đo, 1865–1871</span></p>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- 2b · nghiên cứu trước -->
+  <section class="scene" data-steps="1" data-label="2b" aria-label="Nghiên cứu trước về giai đoạn Trương Vĩnh Ký">
+    <div class="inner">
+      <p class="eyebrow">Nghiên cứu trước nói gì về giai đoạn Trương Vĩnh Ký?</p>
+      <div class="prior">
+        <blockquote class="pq">
+          <p class="en">Under Truong Vinh Ky as Chief Consul, the content in this section of Gia Dinh newspaper became rich and really brought good and useful information to readers.</p>
+          <p class="vi"><small>Tạm dịch · về mục Tạp vụ</small>Dưới thời Trương Vĩnh Ký làm Chánh tổng tài, nội dung mục này của Gia Định Báo trở nên phong phú và thực sự mang lại thông tin hay, hữu ích cho người đọc.</p>
+          <cite>Nguyen Thi Kieu Oanh (2022)</cite>
+        </blockquote>
+        <div class="pcs">
+          <div class="pc"><p>Nội dung trở nên <b>phong phú hơn</b>; diện mạo tờ báo <b>nhiều thay đổi</b> so với giai đoạn Potteaux.</p><cite>Huỳnh Văn Tòng (2000) · Dương Thu Hằng (2015) · Nguyễn Văn Hà (2016)</cite><small>tóm lược</small></div>
+          <div class="pc"><p>Xuất hiện bài lịch sử, thơ, truyện và các nội dung hữu ích dưới thời Trương Vĩnh Ký.</p><cite>Huỳnh Văn Tòng (2000)</cite><small>tóm lược</small></div>
+        </div>
+      </div>
+      <div class="but" data-s="1"><b>Nhưng…</b><span>các nhận định dựa trên một số ít số báo, chưa có phép đo hệ thống trên toàn bộ tư liệu hiện còn.</span>
+        <q>Thời điểm chuyển giao có trùng với thời điểm nội dung thực sự bắt đầu thay đổi?</q></div>
     </div>
   </section>
 
@@ -703,7 +742,7 @@ table.row td { border-bottom: 1px solid var(--rule); padding: 4px 8px; }
     </div>
   </section>
   <!-- 16 · tài liệu tham khảo -->
-  <section class="scene s9" data-steps="0" aria-label="Tài liệu tham khảo">
+  <section class="scene s9" data-steps="0" data-label="" aria-label="Tài liệu tham khảo">
     <div class="inner">
       <div class="thx"><h2>Tài liệu tham khảo</h2></div>
       <ul class="refs">
@@ -721,7 +760,7 @@ table.row td { border-bottom: 1px solid var(--rule); padding: 4px 8px; }
     </div>
   </section>
   <!-- 17 · cảm ơn -->
-  <section class="scene s10" data-steps="0" aria-label="Cảm ơn">
+  <section class="scene s10" data-steps="0" data-label="" aria-label="Cảm ơn">
     <div class="inner">
       <h2 class="ty">Xin trân trọng<br>cảm ơn<i>!</i></h2>
       <p class="pt">Từ Ernest Potteaux đến Trương Vĩnh Ký: biến đổi nội dung Gia Định Báo qua Công vụ, Tạp vụ, Giá chợ (1865–1871)</p>
@@ -745,6 +784,9 @@ table.row td { border-bottom: 1px solid var(--rule); padding: 4px 8px; }
 (() => {
   const scenes = [...document.querySelectorAll('.scene')];
   const N = scenes.length;
+  // số cảnh theo bài nói: trang có data-label (tiêu đề, 2b, tham khảo, cảm ơn) không tính
+  let cnum = 0;
+  const LABEL = scenes.map(s => s.dataset.label !== undefined ? s.dataset.label : String(++cnum));
   const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
   let si = 0, st = 0;
 
@@ -1040,7 +1082,7 @@ table.row td { border-bottom: 1px solid var(--rule); padding: 4px 8px; }
       else HOOKS[hk](st);
     }
     const max = +sc.dataset.steps;
-    document.getElementById('pg').textContent = si ? `${si} / ${N - 1}` : '';
+    document.getElementById('pg').textContent = LABEL[si] ? `${LABEL[si]} / ${cnum}` : '';
     document.getElementById('stepdots').innerHTML = max ? Array.from({ length: max + 1 }, (_, i) => `<i class="${i <= st ? 'on' : ''}"></i>`).join('') : '';
   }
   function next() {
