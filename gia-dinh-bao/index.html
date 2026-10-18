@@ -1,0 +1,1090 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gia Định Báo 1865–1871 · Dữ liệu tương tác</title>
+<meta name="description" content="Trực quan hóa dữ liệu nghiên cứu: biến đổi nội dung Gia Định Báo qua ba chuyên mục Công vụ, Tạp vụ, Giá chợ (1865–1871).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,500;0,600;1,500&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --bg: #F3EEE4;
+  --surface: #FBF8F2;
+  --surface-2: #F0EADF;
+  --line: #E1D9CA;
+  --grid: #E8E1D3;
+  --ink: #1F2328;
+  --ink-2: #474B53;
+  --muted: #6A6E75;
+  --accent: #A04E1A;
+  /* Người phụ trách */
+  --pot: #2a78d6;
+  --pot-light: #8fb8ea;
+  --tvk: #eb6834;
+  --jan: #8C8C8C;
+  /* Chuyên mục */
+  --cv: #4a3aa7;
+  --tv: #eda100;
+  --gc: #1baf7a;
+  /* Thang tuần tự (một sắc độ) cho bản đồ nhiệt */
+  --seq-0: #EEF4FC;
+  --seq-1: #2a78d6;
+  --lost: #DED6C6;
+  --shadow: 0 1px 2px rgba(31,35,40,.06), 0 4px 16px rgba(31,35,40,.05);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --bg: #17191C;
+    --surface: #1F2226;
+    --surface-2: #272A2F;
+    --line: #34383E;
+    --grid: #2E3238;
+    --ink: #F1ECE2;
+    --ink-2: #CFC9BE;
+    --muted: #A39E94;
+    --accent: #E39A66;
+    --pot: #3987e5;
+    --pot-light: #2b5a8f;
+    --tvk: #d95926;
+    --jan: #8C8C8C;
+    --cv: #9085e9;
+    --tv: #c98500;
+    --gc: #199e70;
+    --seq-0: #1E2A38;
+    --seq-1: #5b9ef0;
+    --lost: #3A3D42;
+    --shadow: none;
+  }
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 16px/1.55 'Be Vietnam Pro', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3 { font-family: 'EB Garamond', Georgia, serif; font-weight: 600; line-height: 1.15; margin: 0; }
+h2 { font-size: clamp(28px, 3.2vw, 40px); }
+h3 { font-family: 'Be Vietnam Pro', Arial, sans-serif; font-size: 17px; font-weight: 600; }
+p { margin: 0; }
+button, select, input { font: inherit; color: inherit; }
+.wrap { max-width: 1240px; margin: 0 auto; padding: 0 24px; }
+
+/* ---------- Header ---------- */
+.hero { background: #1C2630; color: #F3EDE1; padding: 48px 0 40px; border-left: 10px solid #D9925B; }
+.eyebrow { font-size: 13px; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; color: var(--accent); }
+.hero .eyebrow { color: #E7A877; }
+.hero h1 { font-size: clamp(34px, 5vw, 60px); margin: 10px 0 12px; }
+.hero .sub { font-size: 18px; color: #CFC7B8; max-width: 760px; }
+.hero .authors { margin-top: 18px; font-size: 15px; color: #CFC7B8; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 26px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+  border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+  border-radius: 8px; padding: 8px 14px; font-size: 14px; font-weight: 500; text-decoration: none;
+}
+.btn:hover { border-color: var(--muted); }
+.btn.primary { background: #E7A877; border-color: #E7A877; color: #1C2630; font-weight: 600; }
+.hero .btn:not(.primary) { background: transparent; color: #F3EDE1; border-color: #4A5664; }
+.hero .btn:not(.primary):hover { border-color: #CFC7B8; }
+.source { font-size: 13px; color: #CFC7B8; }
+.source b { color: #F3EDE1; font-weight: 600; }
+.source.err { color: #FFB4A0; }
+
+/* ---------- Nav ---------- */
+nav.tabs { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(6px); border-bottom: 1px solid var(--line); }
+nav.tabs .wrap { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+nav.tabs a { white-space: nowrap; padding: 14px 12px; font-size: 14px; font-weight: 500; color: var(--ink-2); text-decoration: none; border-bottom: 2px solid transparent; }
+nav.tabs a:hover, nav.tabs a.on { color: var(--ink); border-bottom-color: var(--accent); }
+
+/* ---------- Sections & cards ---------- */
+main section { padding: 48px 0 8px; }
+.sec-head { display: flex; flex-direction: column; gap: 8px; margin-bottom: 22px; max-width: 860px; }
+.sec-head .lead { color: var(--ink-2); font-size: 16px; }
+.grid { display: grid; gap: 20px; }
+.g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.g-73 { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); }
+@media (max-width: 900px) { .g2, .g-73 { grid-template-columns: 1fr; } }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px; box-shadow: var(--shadow); min-width: 0; }
+.card-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 16px; margin-bottom: 14px; }
+.card-head .note { font-size: 13px; color: var(--muted); }
+.insight { margin-top: 14px; padding: 12px 14px; border-left: 4px solid var(--accent); background: var(--surface-2); border-radius: 0 8px 8px 0; font-size: 14.5px; color: var(--ink-2); }
+.insight b { color: var(--ink); }
+.hint { font-size: 13px; color: var(--muted); }
+
+/* KPI */
+.kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 900px) { .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .kpis { grid-template-columns: 1fr; } }
+.kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; box-shadow: var(--shadow); }
+.kpi .lab { font-size: 13px; color: var(--muted); font-weight: 500; }
+.kpi .val { font-family: 'EB Garamond', Georgia, serif; font-size: 46px; font-weight: 600; line-height: 1.05; margin: 6px 0 4px; font-variant-numeric: tabular-nums; }
+.kpi .val small { font-size: 22px; color: var(--muted); font-weight: 500; }
+.kpi .det { font-size: 13.5px; color: var(--ink-2); }
+.mini { display: flex; height: 10px; border-radius: 5px; overflow: hidden; gap: 2px; margin: 8px 0 6px; }
+.mini > i { display: block; height: 100%; }
+
+/* Legends */
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13.5px; color: var(--ink-2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 12px; height: 12px; border-radius: 3px; display: inline-block; flex: none; }
+.sw.line { height: 3px; width: 16px; border-radius: 2px; }
+
+/* Segmented controls */
+.controls { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; margin-bottom: 16px; }
+.seg { display: inline-flex; background: var(--surface-2); border: 1px solid var(--line); border-radius: 9px; padding: 3px; }
+.seg button { border: 0; background: transparent; padding: 6px 12px; border-radius: 7px; font-size: 13.5px; font-weight: 500; cursor: pointer; color: var(--ink-2); }
+.seg button.on { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.12); }
+.ctl-lab { font-size: 13px; color: var(--muted); margin-right: 6px; }
+select.inp, input.inp { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 7px 10px; font-size: 14px; min-width: 0; }
+
+/* ---------- Charts ---------- */
+.chart { position: relative; width: 100%; }
+svg text { font-family: 'Be Vietnam Pro', Arial, sans-serif; }
+.hit { cursor: pointer; }
+.bar-hit:focus-visible, .hit:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Lưu trữ: cột chồng */
+.surv { display: flex; gap: 10px; align-items: flex-end; height: 260px; border-bottom: 1.5px solid var(--ink); padding-top: 26px; }
+.surv .col { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: stretch; height: 100%; position: relative; cursor: default; }
+.surv .col .top { font-size: 13px; font-weight: 600; text-align: center; margin-bottom: 4px; font-variant-numeric: tabular-nums; }
+.surv .seg-lost { background: var(--lost); border-radius: 4px 4px 0 0; }
+.surv .seg-kept { background: var(--ink-2); }
+.surv .seg-kept.only { border-radius: 4px 4px 0 0; }
+.surv .col:hover .seg-lost, .surv .col:focus-visible .seg-lost { filter: brightness(.93); }
+.xlabels { display: flex; gap: 10px; margin-top: 6px; }
+.xlabels span { flex: 1; text-align: center; font-size: 13px; color: var(--muted); }
+
+/* Ma trận số báo */
+.matrix-wrap { overflow-x: auto; padding-bottom: 6px; }
+.matrix { display: grid; grid-template-columns: 92px minmax(640px, 1fr); gap: 6px 10px; align-items: center; min-width: 760px; }
+.matrix .rlab { font-size: 13.5px; font-weight: 600; text-align: right; }
+.matrix .rlab.small { font-weight: 400; color: var(--muted); font-size: 12.5px; }
+.mrow { display: grid; gap: 2px; height: 30px; }
+.mrow.band { height: 10px; }
+.mrow.years { height: 18px; }
+.cell { border-radius: 2px; background: transparent; box-shadow: inset 0 0 0 1px var(--grid); cursor: pointer; }
+.cell.on { box-shadow: none; }
+.cell:hover, .cell:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
+.mrow.years span { font-size: 12px; color: var(--muted); border-left: 1px solid var(--line); padding-left: 3px; white-space: nowrap; }
+.mark-line { position: absolute; top: -6px; bottom: -6px; width: 0; border-left: 2px dashed var(--ink); pointer-events: none; }
+.mark-line.tvk { border-left-color: var(--tvk); }
+.mark-lab { position: absolute; top: -26px; font-size: 12px; font-weight: 600; white-space: nowrap; transform: translateX(-50%); }
+
+/* Thanh ngang so sánh */
+.hbars { display: flex; flex-direction: column; gap: 10px; }
+.hrow { display: grid; grid-template-columns: minmax(130px, 36%) minmax(0, 1fr); gap: 14px; align-items: center; }
+.hrow .lab { font-size: 13.5px; text-align: right; line-height: 1.3; color: var(--ink); }
+.hrow .pair { display: flex; flex-direction: column; gap: 3px; }
+.btrack { display: flex; align-items: center; gap: 8px; min-height: 16px; }
+.bar { height: 14px; border-radius: 0 4px 4px 0; min-width: 2px; cursor: pointer; transition: width .35s ease; }
+.bar:hover, .bar:focus-visible { filter: brightness(1.08); outline: 2px solid var(--ink); outline-offset: 1px; }
+.bval { font-size: 12.5px; color: var(--ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* Chênh lệch điểm % */
+.drow { display: grid; grid-template-columns: minmax(130px, 40%) minmax(0, 1fr); gap: 12px; align-items: center; }
+.drow .lab { font-size: 13.5px; text-align: right; line-height: 1.3; }
+.drow .lab small { display: block; color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+.dtrack { position: relative; height: 24px; }
+.dtrack .zero { position: absolute; left: 50%; top: -4px; bottom: -4px; border-left: 1.5px solid var(--ink); }
+.dbar { position: absolute; top: 5px; height: 14px; cursor: pointer; }
+.dbar.pos { border-radius: 0 4px 4px 0; background: var(--tvk); }
+.dbar.neg { border-radius: 4px 0 0 4px; background: var(--pot); }
+.dval { position: absolute; top: 2px; font-size: 12.5px; font-weight: 600; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.dlist { display: flex; flex-direction: column; gap: 8px; }
+
+/* Bản đồ nhiệt chéo */
+.heat { width: 100%; border-collapse: separate; border-spacing: 2px; font-size: 13.5px; }
+.heat th { font-weight: 600; font-size: 12.5px; color: var(--ink-2); padding: 4px 6px; text-align: center; }
+.heat th.rowh { text-align: right; font-weight: 400; color: var(--ink); font-size: 13.5px; }
+.heat td { text-align: center; padding: 7px 4px; border-radius: 4px; cursor: pointer; font-variant-numeric: tabular-nums; }
+.heat td.zero { color: var(--muted); cursor: default; }
+.heat td:not(.zero):hover, .heat td:focus-visible { outline: 2px solid var(--ink); }
+.heat td small { display: block; font-size: 11px; opacity: .85; }
+.heat-wrap { overflow-x: auto; }
+
+/* Ba pha */
+.phases { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 1000px) { .phases { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .phases { grid-template-columns: 1fr; } }
+.pcard select { width: 100%; }
+.pcard { min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 10px; box-shadow: var(--shadow); }
+.pcard.custom { border-style: dashed; }
+.pcard h3 { font-size: 15px; min-height: 40px; }
+.pbars { display: flex; gap: 12px; align-items: flex-end; height: 190px; border-bottom: 1.5px solid var(--ink); }
+.pbars .pc { flex: 1; display: flex; flex-direction: column; align-items: stretch; justify-content: flex-end; height: 100%; }
+.pbars .pv { text-align: center; font-size: 14px; font-weight: 600; margin-bottom: 4px; font-variant-numeric: tabular-nums; }
+.pbars .pb { border-radius: 4px 4px 0 0; min-height: 2px; cursor: pointer; transition: height .35s ease; }
+.pbars .pb:hover, .pbars .pb:focus-visible { outline: 2px solid var(--ink); outline-offset: 1px; }
+.plabs { display: flex; gap: 12px; }
+.plabs span { flex: 1; text-align: center; font-size: 12px; color: var(--muted); line-height: 1.3; }
+
+/* ---------- Bảng dữ liệu ---------- */
+.filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; margin-bottom: 12px; }
+.filters label { display: flex; flex-direction: column; gap: 4px; font-size: 12.5px; color: var(--muted); font-weight: 500; }
+.filters .search { grid-column: 1 / -1; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; min-height: 32px; margin-bottom: 8px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 999px; padding: 3px 6px 3px 12px; font-size: 13px; }
+.chip button { border: 0; background: transparent; cursor: pointer; font-size: 15px; line-height: 1; padding: 2px 6px; border-radius: 999px; color: var(--muted); }
+.chip button:hover { background: var(--line); color: var(--ink); }
+.tbl-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; }
+table.data { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+table.data th { text-align: left; font-weight: 600; font-size: 12.5px; color: var(--ink-2); background: var(--surface-2); padding: 9px 10px; position: sticky; top: 0; white-space: nowrap; }
+table.data td { padding: 9px 10px; border-top: 1px solid var(--line); vertical-align: top; }
+table.data tbody tr { cursor: pointer; }
+table.data tbody tr:hover { background: var(--surface-2); }
+table.data td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tag { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.title-cell { min-width: 240px; }
+.title-cell .tt { color: var(--muted); font-size: 12.5px; }
+.pager { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 12px; font-size: 13.5px; color: var(--ink-2); }
+.pager .btns { display: flex; gap: 6px; }
+.empty { padding: 28px; text-align: center; color: var(--muted); }
+
+/* Tooltip & dialog */
+#tip {
+  position: fixed; z-index: 50; pointer-events: none; opacity: 0; transition: opacity .1s;
+  background: #1C2630; color: #F3EDE1; border-radius: 8px; padding: 9px 12px; font-size: 13px; line-height: 1.45;
+  max-width: 300px; box-shadow: 0 6px 24px rgba(0,0,0,.25);
+}
+#tip.show { opacity: 1; }
+#tip b { color: #fff; }
+#tip .muted { color: #B9B2A5; }
+#tip .row { display: flex; align-items: center; gap: 6px; }
+dialog { border: 1px solid var(--line); border-radius: 14px; padding: 0; max-width: min(860px, 94vw); width: 100%; background: var(--surface); color: var(--ink); }
+dialog::backdrop { background: rgba(20,22,26,.55); }
+.dlg-head { display: flex; justify-content: space-between; gap: 16px; align-items: start; padding: 20px 22px 12px; border-bottom: 1px solid var(--line); position: sticky; top: 0; background: var(--surface); }
+.dlg-body { padding: 16px 22px 22px; display: grid; grid-template-columns: 150px 1fr; gap: 8px 16px; font-size: 14px; }
+.dlg-body dt { color: var(--muted); font-size: 13px; }
+.dlg-body dd { margin: 0; }
+.dlg-body .ocr { grid-column: 1 / -1; white-space: pre-wrap; background: var(--surface-2); border-radius: 8px; padding: 12px 14px; font-size: 13.5px; max-height: 340px; overflow: auto; }
+@media (max-width: 600px) { .dlg-body { grid-template-columns: 1fr; } }
+
+footer { padding: 40px 0 56px; color: var(--muted); font-size: 13px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Báo chí Quốc ngữ · Dữ liệu tương tác</p>
+    <h1>Gia Định Báo 1865–1871: từ Ernest Potteaux đến Trương Vĩnh Ký</h1>
+    <p class="sub">Biến đổi nội dung qua ba chuyên mục Công vụ, Tạp vụ và Giá chợ. Mọi biểu đồ được tính trực tiếp từ dữ liệu mã hóa trong file Excel. Nhấp vào bất kỳ cột, ô hay thanh nào để xem các đơn vị văn bản tương ứng.</p>
+    <p class="authors">Nguyễn Thị Hương · Park Yeon-Kwan — Trường Đại học Ngoại ngữ Hàn Quốc (HUFS)</p>
+    <div class="toolbar">
+      <label class="btn primary" for="file-input">Mở file Excel…</label>
+      <input id="file-input" type="file" accept=".xlsx,.xls,.xlsm" class="sr">
+      <a class="btn" href="GDB_1865-1871.xlsx" download>Tải Excel gốc</a>
+      <button class="btn" id="btn-reset-data" hidden>Về dữ liệu mặc định</button>
+      <span class="source" id="source"></span>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs" aria-label="Mục lục">
+  <div class="wrap">
+    <a href="#tong-quan">Tổng quan</a>
+    <a href="#so-bao">Chuyên mục theo số báo</a>
+    <a href="#hinh-thuc">Hình thức</a>
+    <a href="#chu-de">Chủ đề</a>
+    <a href="#ba-pha">Ba pha 1869</a>
+    <a href="#du-lieu">Bảng dữ liệu</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <!-- 1. Tổng quan -->
+  <section id="tong-quan">
+    <div class="sec-head">
+      <p class="eyebrow">1 · Tổng quan corpus</p>
+      <h2>Corpus nhìn từ các con số</h2>
+    </div>
+    <div class="kpis" id="kpis"></div>
+    <div class="grid g-73" style="margin-top:20px">
+      <div class="card">
+        <div class="card-head">
+          <h3>Số báo hiện còn và thất lạc theo năm</h3>
+          <div class="legend"><span><i class="sw" style="background:var(--ink-2)"></i>Hiện còn</span><span><i class="sw" style="background:var(--lost)"></i>Thất lạc / chưa tìm thấy</span></div>
+        </div>
+        <div id="chart-survival"></div>
+        <p class="insight" id="insight-survival"></p>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>Đơn vị văn bản theo người phụ trách</h3><span class="note">ba chuyên mục</span></div>
+        <div id="chart-editor"></div>
+        <p class="insight">So sánh hai giai đoạn dùng đơn vị của <b>Potteaux</b> và <b>Trương Vĩnh Ký</b>. Số báo do <b>G. Janneau</b> tạm quyền (1/12/1869) được để riêng.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Số báo -->
+  <section id="so-bao">
+    <div class="sec-head">
+      <p class="eyebrow">2 · Câu hỏi 1 — Cấu trúc chuyên mục</p>
+      <h2>Từ ba mục ổn định sang cặp Công vụ–Tạp vụ</h2>
+      <p class="lead">Tỷ lệ được tính trên số báo <i>hiện còn</i> của từng năm, không phải trên tổng số báo đã phát hành.</p>
+    </div>
+    <div class="card">
+      <div class="card-head">
+        <h3>Tỷ lệ số báo hiện còn có từng chuyên mục</h3>
+        <div class="legend" id="legend-sections"></div>
+      </div>
+      <div class="chart" id="chart-presence"></div>
+      <p class="hint">Rê chuột lên biểu đồ để xem số liệu từng năm.</p>
+    </div>
+    <div class="card" style="margin-top:20px">
+      <div class="card-head">
+        <h3>Từng số báo: chuyên mục nào xuất hiện, bao nhiêu đơn vị?</h3>
+        <span class="note">Mỗi cột = 1 số báo · màu càng đậm = càng nhiều đơn vị</span>
+      </div>
+      <div class="matrix-wrap"><div id="chart-matrix"></div></div>
+      <div class="legend" style="margin-top:12px"><span><i class="sw" style="background:var(--pot)"></i>Potteaux</span><span><i class="sw" style="background:var(--jan)"></i>G. Janneau</span><span><i class="sw" style="background:var(--tvk)"></i>Trương Vĩnh Ký</span><span><i class="sw" style="box-shadow:inset 0 0 0 1px var(--grid)"></i>Không có mục</span></div>
+      <p class="insight">Giữa <b>6 và 9/1869</b> (vẫn thời Potteaux), mỗi số hiện còn chỉ có Công vụ <i>hoặc</i> Tạp vụ. Từ <b>16/9/1869</b>, mọi số đều có cặp Công vụ–Tạp vụ và không còn Giá chợ. Nhấp vào một ô để xem các đơn vị của số báo đó.</p>
+    </div>
+  </section>
+
+  <!-- 3. Hình thức -->
+  <section id="hinh-thuc">
+    <div class="sec-head">
+      <p class="eyebrow">3 · Câu hỏi 2 — Hình thức (11 nhóm)</p>
+      <h2>Văn bản được tổ chức để làm gì?</h2>
+      <p class="lead">So sánh cơ cấu hình thức chính giữa Potteaux và Trương Vĩnh Ký trong từng chuyên mục.</p>
+    </div>
+    <div data-dist="hf"></div>
+  </section>
+
+  <!-- 4. Chủ đề -->
+  <section id="chu-de">
+    <div class="sec-head">
+      <p class="eyebrow">4 · Câu hỏi 2 — Chủ đề (15 nhóm)</p>
+      <h2>Văn bản chủ yếu nói về lĩnh vực gì?</h2>
+      <p class="lead">“Đa chủ đề” là mã kỹ thuật cho tin tổng hợp, không phải chủ đề thứ 16.</p>
+    </div>
+    <div data-dist="cd"></div>
+  </section>
+
+  <!-- 5. Ba pha -->
+  <section id="ba-pha">
+    <div class="sec-head">
+      <p class="eyebrow">5 · Câu hỏi 3 — Trình tự thời gian</p>
+      <h2>Thay đổi bắt đầu trước ngày bàn giao 16/9/1869</h2>
+      <p class="lead">Giai đoạn Potteaux được tách tại tháng 6/1869 thành hai pha. Chọn thêm một chỉ báo bất kỳ ở thẻ cuối để tự kiểm tra.</p>
+    </div>
+    <div class="controls">
+      <span><span class="ctl-lab">Chuyên mục</span><span class="seg" id="phase-sec"></span></span>
+      <div class="legend" id="legend-phases"></div>
+    </div>
+    <div class="phases" id="chart-phases"></div>
+    <p class="insight" style="margin-top:16px">Ba chỉ báo đầu cùng tăng dần qua <b>A → B → C</b>. Một số đặc điểm thường gắn với Trương Vĩnh Ký đã xuất hiện trong những số cuối thời Potteaux. Vì vậy 16/9/1869 là <b>mốc chuyển giao thể chế</b>, không phải một điểm gãy tuyệt đối. Không phải chỉ báo nào cũng tăng tuyến tính, nên đây là minh họa trình tự, không phải kiểm định thống kê.</p>
+  </section>
+
+  <!-- 6. Dữ liệu -->
+  <section id="du-lieu">
+    <div class="sec-head">
+      <p class="eyebrow">6 · Dữ liệu gốc</p>
+      <h2>Bảng đơn vị văn bản</h2>
+      <p class="lead">Lọc, tìm kiếm toàn văn (nhan đề, từ khóa, tóm tắt, OCR), nhấp vào một dòng để đọc chi tiết. Có thể xuất phần đang lọc ra Excel hoặc CSV.</p>
+    </div>
+    <div class="card">
+      <div class="filters" id="filters"></div>
+      <div class="chips" id="chips"></div>
+      <div class="tbl-wrap">
+        <table class="data">
+          <thead><tr><th>Ngày</th><th>Số</th><th>Phụ trách</th><th>Mục</th><th>Nhan đề / tên đặt tạm</th><th>Hình thức chính</th><th>Chủ đề chính</th></tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+      <div class="pager">
+        <span id="pager-info"></span>
+        <div class="btns">
+          <button class="btn" id="btn-csv">Xuất CSV</button>
+          <button class="btn" id="btn-xlsx">Xuất Excel</button>
+          <button class="btn" id="pg-prev" aria-label="Trang trước">‹</button>
+          <button class="btn" id="pg-next" aria-label="Trang sau">›</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  Dữ liệu: corpus 61 số Gia Định Báo hiện còn (BnF; Thư viện KHTH TP.HCM; Southeast Asian Newspapers). Các tỷ lệ chỉ mô tả corpus hiện tiếp cận được, không suy rộng cho các số thất lạc.
+  Mở trang trực tiếp từ thư mục (index.html + data.js) vẫn chạy offline. Nút “Mở file Excel” cần Internet để tải thư viện đọc Excel, nhưng file chỉ được đọc trong trình duyệt và không tải lên đâu cả.
+</footer>
+
+<div id="tip" role="status" aria-live="polite"></div>
+<dialog id="detail"></dialog>
+
+<script src="data.js"></script>
+<script>
+(() => {
+'use strict';
+
+/* ================== Hằng số & tiện ích ================== */
+const SECTIONS = ['Công vụ', 'Tạp vụ', 'Giá chợ'];
+const SEC_VAR = { 'Công vụ': '--cv', 'Tạp vụ': '--tv', 'Giá chợ': '--gc' };
+const PERIODS = ['Potteaux', 'TVK', 'Janneau'];
+const PERIOD_LABEL = { Potteaux: 'Potteaux', TVK: 'Trương Vĩnh Ký', Janneau: 'G. Janneau' };
+const PERIOD_VAR = { Potteaux: '--pot', TVK: '--tvk', Janneau: '--jan' };
+const PHASES = ['A', 'B', 'C'];
+const PHASE_LABEL = { A: 'Potteaux trước 6/1869', B: 'Potteaux 6–9/1869', C: 'Trương Vĩnh Ký', J: 'Janneau' };
+const PHASE_VAR = { A: '--pot', B: '--pot-light', C: '--tvk' };
+const HANDOVER = 18690916, PHASE_B_START = 18690601;
+
+// Tên cột trong Excel -> khóa ngắn (cùng bảng với build_data.py; có tên thay thế)
+const UNIT_COLS = {
+  d: ['DATE', 'Ngày'], n: ['N0', 'Số'], p: ['Thời kỳ', 'Chánh tổng tài'], m: ['Mục (chuẩn hóa)', 'Mục'],
+  t: ['Tên bài (nếu có)', 'Tên bài'], tt: ['Tên đặt tạm thời'], hf: ['Hình thức chính'], hf2: ['Hình thức phụ'],
+  cd: ['Nội dung chính', 'Chủ đề chính'], cd2: ['Nội dung phụ', 'Chủ đề phụ'], kw: ['Từ khoá', 'Từ khóa'],
+  sum: ['Tóm tắt nội dung'], note: ['Ghi chú phân loại'], ocr: ['OCR'], y: ['Năm (phụ)', 'Năm'], k: ['Khóa ngày (yyyymmdd)'],
+};
+const ISSUE_COLS = {
+  id: ['Danh sách số báo'], d: ['Ngày phát hành'], y: ['Năm phát hành'], n: ['Số báo'], st: ['Tình trạng lưu trữ'],
+  ed: ['Chánh tổng tài / người phụ trách'], loc: ['nơi bảo tồn', 'Nơi bảo tồn'],
+};
+const FIELD_LABEL = { d: 'Ngày', n: 'Số', p: 'Phụ trách', m: 'Mục', t: 'Tên bài', tt: 'Tên đặt tạm thời', hf: 'Hình thức chính', hf2: 'Hình thức phụ', cd: 'Chủ đề chính', cd2: 'Chủ đề phụ', kw: 'Từ khóa', sum: 'Tóm tắt nội dung', note: 'Ghi chú phân loại', ocr: 'OCR' };
+
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const nf1 = new Intl.NumberFormat('vi-VN', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+const nf0 = new Intl.NumberFormat('vi-VN');
+const pct = (a, b) => (b ? (a / b) * 100 : 0);
+const fp = x => nf1.format(x) + '%';
+const fpp = x => (x > 0 ? '+' : x < 0 ? '−' : '±') + nf1.format(Math.abs(x));
+const cssv = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const nfc = s => (typeof s === 'string' ? s.normalize('NFC').replace(/\s+/g, ' ').trim() : s);
+const countBy = (arr, f) => arr.reduce((m, x) => { const k = f(x); m.set(k, (m.get(k) || 0) + 1); return m; }, new Map());
+
+/* ================== Chuẩn hóa dữ liệu ================== */
+function normSection(m) {
+  const s = nfc(String(m || '')).toLowerCase();
+  if (/^(t[ạậa]p)\s*v[ụu]/.test(s)) return 'Tạp vụ';
+  if (/^c[ôo]ng\s*v[ụu]/.test(s)) return 'Công vụ';
+  if (/^gi[áa]\s*ch[ợo]/.test(s)) return 'Giá chợ';
+  return nfc(String(m || '')) || '—';
+}
+function normPeriod(p) {
+  const s = String(p || '').toLowerCase();
+  if (/tvk|trương|truong/.test(s)) return 'TVK';
+  if (/janneau/.test(s)) return 'Janneau';
+  return 'Potteaux';
+}
+function excelSerialToKey(n) {
+  const d = new Date(Math.round((n - 25569) * 86400000));
+  return d.getUTCFullYear() * 10000 + (d.getUTCMonth() + 1) * 100 + d.getUTCDate();
+}
+function dateKey(u) {
+  if (u.k && /^\d{8}$/.test(String(u.k))) return +u.k;
+  if (typeof u.d === 'number') return excelSerialToKey(u.d);
+  const m = String(u.d || '').match(/(\d{1,2})\s*[\/.-]\s*(\d{1,2})\s*[\/.-]\s*(\d{4})/);
+  return m ? +m[3] * 10000 + +m[2] * 100 + +m[1] : 0;
+}
+const keyToDate = k => k ? `${String(k % 100).padStart(2, '0')}/${String(Math.floor(k / 100) % 100).padStart(2, '0')}/${Math.floor(k / 10000)}` : '—';
+
+let DB; // dữ liệu đã chuẩn hóa
+
+function prepare(raw) {
+  const units = (raw.units || []).map((r, i) => {
+    const u = {};
+    for (const [k, v] of Object.entries(r)) u[k] = nfc(v);
+    u.id = i;
+    u.m = normSection(u.m);
+    u.p = normPeriod(u.p);
+    u.k = dateKey(u);
+    u.d = keyToDate(u.k);
+    u.y = Math.floor(u.k / 10000) || +u.y || 0;
+    u.n = u.n ?? '';
+    u.ph = u.p === 'TVK' ? 'C' : u.p === 'Janneau' ? 'J' : (u.k >= PHASE_B_START ? 'B' : 'A');
+    u.issue = u.k + '|' + u.n;
+    u.hasTitle = !!u.t && !/^không có$/i.test(String(u.t).trim());
+    u.hf = u.hf || '(chưa mã)';
+    u.cd = u.cd || '(chưa mã)';
+    u.search = [u.t, u.tt, u.kw, u.sum, u.note, u.ocr, u.hf, u.cd].filter(Boolean).join(' ').toLowerCase();
+    return u;
+  }).filter(u => u.k);
+  units.sort((a, b) => a.k - b.k || a.id - b.id);
+  const main = units.filter(u => SECTIONS.includes(u.m));
+
+  // Số báo hiện còn suy ra từ đơn vị văn bản
+  const issueMap = new Map();
+  for (const u of units) {
+    if (!issueMap.has(u.issue)) issueMap.set(u.issue, { key: u.issue, k: u.k, d: u.d, n: u.n, y: u.y, p: u.p, ph: u.ph, c: { 'Công vụ': 0, 'Tạp vụ': 0, 'Giá chợ': 0 }, extra: 0, titles: 0 });
+    const is = issueMap.get(u.issue);
+    if (SECTIONS.includes(u.m)) is.c[u.m]++; else is.extra++;
+  }
+  const issues = [...issueMap.values()].sort((a, b) => a.k - b.k);
+
+  // Danh sách số báo phát hành (lưu trữ)
+  const archive = (raw.issues || []).filter(r => r.id || r.st).map(r => ({
+    y: +r.y || (dateKey({ d: r.d }) / 10000 | 0), st: nfc(String(r.st || '')), d: r.d, n: r.n, ed: r.ed, loc: r.loc, id: r.id,
+  })).filter(r => r.y);
+
+  const fields = { hf: uniqSorted(main, 'hf'), cd: uniqSorted(main, 'cd') };
+  return { source: raw.source || 'dữ liệu', units, main, issues, archive, fields };
+}
+function uniqSorted(arr, f) {
+  return [...countBy(arr, x => x[f]).entries()].sort((a, b) => b[1] - a[1]).map(e => e[0]);
+}
+
+/* ================== Tooltip ================== */
+const tip = $('#tip');
+function showTip(html, ev) {
+  tip.innerHTML = html; tip.classList.add('show');
+  let x, y;
+  if (ev && 'clientX' in ev && ev.clientX) { x = ev.clientX; y = ev.clientY; }
+  else { const r = ev.target.getBoundingClientRect(); x = r.left + r.width / 2; y = r.top; }
+  const tw = tip.offsetWidth, th = tip.offsetHeight;
+  let left = x + 14, top = y - th - 12;
+  if (left + tw > innerWidth - 8) left = x - tw - 14;
+  if (top < 8) top = y + 18;
+  tip.style.left = Math.max(8, left) + 'px'; tip.style.top = top + 'px';
+}
+const hideTip = () => tip.classList.remove('show');
+// Gắn tooltip + nhấp (chuột, bàn phím) cho mọi phần tử có data-tip
+function bindInteractive(root) {
+  root.querySelectorAll('[data-tip]').forEach(el => {
+    if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
+    const h = ev => showTip(el.dataset.tip, ev);
+    el.addEventListener('mousemove', h);
+    el.addEventListener('focus', h);
+    el.addEventListener('mouseleave', hideTip);
+    el.addEventListener('blur', hideTip);
+    if (el.dataset.filter) {
+      const go = () => { hideTip(); applyFilter(JSON.parse(el.dataset.filter)); };
+      el.addEventListener('click', go);
+      el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+    }
+  });
+}
+const sw = (v, cls = '') => `<i class="sw ${cls}" style="background:var(${v})"></i>`;
+const tipAttr = (html, filter) => ` data-tip="${esc(html)}"${filter ? ` data-filter="${esc(JSON.stringify(filter))}"` : ''}`;
+
+/* ================== 1. Tổng quan ================== */
+function renderKPIs() {
+  const { main, issues, archive, units } = DB;
+  const total = archive.length;
+  const extra = units.length - main.length;
+  const bySec = SECTIONS.map(s => [s, main.filter(u => u.m === s).length]);
+  const byEd = PERIODS.map(p => [p, issues.filter(i => i.p === p).length]);
+  const mini = (arr, vars) => `<div class="mini">${arr.map(([k, n]) => `<i style="flex:${n};background:var(${vars[k]})" title="${esc(k)}: ${n}"></i>`).join('')}</div>`;
+  $('#kpis').innerHTML = `
+    <div class="kpi"><div class="lab">Số báo hiện còn</div>
+      <div class="val">${issues.length}${total ? `<small> / ${total}</small>` : ''}</div>
+      <div class="det">${total ? `<b>${fp(pct(issues.length, total))}</b> số dự kiến đã phát hành còn lưu` : 'số báo trong corpus'}</div></div>
+    <div class="kpi"><div class="lab">Đơn vị văn bản (ba chuyên mục)</div>
+      <div class="val">${nf0.format(main.length)}</div>
+      <div class="det">${extra ? `+ ${extra} đơn vị “Phụ thêm” chỉ để đối chiếu` : 'đã mã hóa hình thức và chủ đề'}</div></div>
+    <div class="kpi"><div class="lab">Theo chuyên mục</div>
+      ${mini(bySec, SEC_VAR)}
+      <div class="det">${bySec.map(([s, n]) => `${sw(SEC_VAR[s])} ${s} <b>${n}</b>`).join(' &nbsp; ')}</div></div>
+    <div class="kpi"><div class="lab">Số báo theo người phụ trách</div>
+      ${mini(byEd, PERIOD_VAR)}
+      <div class="det">${byEd.map(([p, n]) => `${sw(PERIOD_VAR[p])} ${PERIOD_LABEL[p]} <b>${n}</b>`).join(' &nbsp; ')}</div></div>`;
+}
+
+function renderSurvival() {
+  const el = $('#chart-survival');
+  const { archive, issues } = DB;
+  let rows;
+  if (archive.length) {
+    const ys = [...new Set(archive.map(a => a.y))].sort();
+    rows = ys.map(y => { const a = archive.filter(r => r.y === y); return { y, total: a.length, kept: a.filter(r => /^còn/i.test(r.st)).length }; });
+  } else {
+    const ys = [...new Set(issues.map(i => i.y))].sort();
+    rows = ys.map(y => ({ y, total: issues.filter(i => i.y === y).length, kept: issues.filter(i => i.y === y).length }));
+  }
+  const max = Math.max(...rows.map(r => r.total));
+  el.innerHTML = `<div class="surv">${rows.map(r => {
+    const lost = r.total - r.kept;
+    const t = `<b>${r.y}</b><br>Hiện còn: <b>${r.kept}</b> / ${r.total} số (${fp(pct(r.kept, r.total))})<br><span class="muted">Thất lạc / chưa tìm thấy: ${lost}</span><br><span class="muted">Nhấp để xem các đơn vị năm ${r.y}</span>`;
+    return `<div class="col"${tipAttr(t, { y: r.y })}>
+      <div class="top">${r.kept}/${r.total}</div>
+      ${lost ? `<div class="seg-lost" style="height:${(lost / max) * 100}%"></div>` : ''}
+      <div class="seg-kept ${lost ? '' : 'only'}" style="height:${(r.kept / max) * 100}%"></div></div>`;
+  }).join('')}</div>
+  <div class="xlabels">${rows.map(r => `<span>${r.y}</span>`).join('')}</div>`;
+  const tot = rows.reduce((s, r) => s + r.total, 0), kept = rows.reduce((s, r) => s + r.kept, 0);
+  const best = rows.reduce((a, b) => (pct(b.kept, b.total) > pct(a.kept, a.total) ? b : a));
+  const worst = rows.reduce((a, b) => (pct(b.kept, b.total) < pct(a.kept, a.total) ? b : a));
+  $('#insight-survival').innerHTML = `Còn <b>${kept}/${tot}</b> số (${fp(pct(kept, tot))}). Mức tồn tại rất không đều: năm ${best.y} còn <b>${best.kept}/${best.total}</b>, năm ${worst.y} chỉ còn <b>${worst.kept}/${worst.total}</b>. Vì vậy corpus là tư liệu hiện còn, không phải mẫu ngẫu nhiên.`;
+  bindInteractive(el);
+}
+
+function renderEditor() {
+  const el = $('#chart-editor');
+  const { main } = DB;
+  const max = Math.max(...PERIODS.map(p => main.filter(u => u.p === p).length));
+  el.innerHTML = `<div class="hbars">${PERIODS.map(p => {
+    const us = main.filter(u => u.p === p);
+    const segs = SECTIONS.map(s => [s, us.filter(u => u.m === s).length]).filter(x => x[1]);
+    return `<div class="hrow"><div class="lab"><b>${PERIOD_LABEL[p]}</b><br><span class="hint">${us.length} đơn vị</span></div>
+      <div style="display:flex;gap:2px;width:${(us.length / max) * 100}%;min-width:40px">
+        ${segs.map(([s, n]) => `<div class="bar" style="flex:${n};height:26px;border-radius:3px;background:var(${SEC_VAR[s]})"${tipAttr(`<b>${PERIOD_LABEL[p]} · ${s}</b><br>${n} đơn vị (${fp(pct(n, us.length))})<br><span class="muted">Nhấp để xem</span>`, { p, m: s })}></div>`).join('')}
+      </div></div>`;
+  }).join('')}</div>
+  <div class="legend" style="margin-top:14px">${SECTIONS.map(s => `<span>${sw(SEC_VAR[s])}${s}</span>`).join('')}</div>`;
+  bindInteractive(el);
+}
+
+/* ================== 2. Chuyên mục theo năm (đường) ================== */
+function renderPresence() {
+  const el = $('#chart-presence');
+  const { issues } = DB;
+  const years = [...new Set(issues.map(i => i.y))].sort();
+  const data = years.map(y => {
+    const is = issues.filter(i => i.y === y);
+    const o = { y, n: is.length };
+    SECTIONS.forEach(s => { o[s] = is.filter(i => i.c[s] > 0).length; });
+    return o;
+  });
+  const W = Math.max(320, el.clientWidth), H = W < 600 ? 260 : 330;
+  const m = { l: 46, r: W < 600 ? 16 : 90, t: 28, b: 34 };
+  const iw = W - m.l - m.r, ih = H - m.t - m.b;
+  const x = i => m.l + (years.length === 1 ? iw / 2 : (i / (years.length - 1)) * iw);
+  const yv = v => m.t + ih - (v / 100) * ih;
+  let svg = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="Tỷ lệ số báo hiện còn có từng chuyên mục theo năm">`;
+  [0, 25, 50, 75, 100].forEach(v => {
+    svg += `<line x1="${m.l}" x2="${W - m.r}" y1="${yv(v)}" y2="${yv(v)}" stroke="var(--grid)" stroke-width="1"/>`;
+    svg += `<text x="${m.l - 8}" y="${yv(v) + 4}" text-anchor="end" font-size="12" fill="var(--muted)">${v}%</text>`;
+  });
+  years.forEach((y, i) => svg += `<text x="${x(i)}" y="${H - 10}" text-anchor="middle" font-size="12.5" fill="var(--muted)">${y}</text>`);
+  // Mốc bàn giao 16/9/1869
+  const hi = years.indexOf(1869);
+  if (hi >= 0 && hi < years.length - 1) {
+    const hx = x(hi) + (x(hi + 1) - x(hi)) * (259 / 365);
+    svg += `<line x1="${hx}" x2="${hx}" y1="${m.t - 6}" y2="${m.t + ih}" stroke="var(--tvk)" stroke-width="2" stroke-dasharray="6 5"/>`;
+    const right = hx > W - 150;
+    svg += `<text x="${right ? hx - 6 : hx + 6}" y="${m.t - 12}" text-anchor="${right ? 'end' : 'start'}" font-size="12" font-weight="600" fill="var(--ink)">16/9/1869 bàn giao</text>`;
+  }
+  // Đường (Tạp vụ vẽ trước, nét dày mờ để không che Công vụ khi trùng 100%)
+  const order = ['Tạp vụ', 'Giá chợ', 'Công vụ'];
+  order.forEach(s => {
+    const pts = data.map((d, i) => `${x(i)},${yv(pct(d[s], d.n))}`).join(' ');
+    const wide = s === 'Tạp vụ';
+    svg += `<polyline points="${pts}" fill="none" stroke="var(${SEC_VAR[s]})" stroke-width="${wide ? 7 : 2.5}" stroke-opacity="${wide ? 0.55 : 1}" stroke-linejoin="round" stroke-linecap="round"/>`;
+    data.forEach((d, i) => svg += `<circle cx="${x(i)}" cy="${yv(pct(d[s], d.n))}" r="${wide ? 5.5 : 4.5}" fill="var(${SEC_VAR[s]})" stroke="var(--surface)" stroke-width="2"/>`);
+  });
+  // Nhãn trực tiếp ở cuối đường
+  if (W >= 600) {
+    const last = data[data.length - 1];
+    const labs = SECTIONS.map(s => ({ s, v: yv(pct(last[s], last.n)) })).sort((a, b) => a.v - b.v);
+    for (let i = 1; i < labs.length; i++) if (labs[i].v - labs[i - 1].v < 16) labs[i].v = labs[i - 1].v + 16;
+    labs.forEach(l => svg += `<text x="${x(data.length - 1) + 12}" y="${l.v + 4}" font-size="12.5" font-weight="600" fill="var(--ink)">${l.s}</text>`);
+  }
+  svg += `<line id="xhair" x1="0" x2="0" y1="${m.t}" y2="${m.t + ih}" stroke="var(--ink)" stroke-width="1" opacity="0"/>`;
+  // Vùng bắt chuột theo năm
+  data.forEach((d, i) => {
+    const x0 = i === 0 ? m.l : (x(i - 1) + x(i)) / 2, x1 = i === data.length - 1 ? W - m.r : (x(i) + x(i + 1)) / 2;
+    svg += `<rect class="hit" data-i="${i}" x="${x0}" y="${m.t}" width="${x1 - x0}" height="${ih}" fill="transparent"/>`;
+  });
+  svg += '</svg>';
+  el.innerHTML = svg;
+  const xh = $('#xhair', el);
+  el.querySelectorAll('rect.hit').forEach(r => {
+    const i = +r.dataset.i, d = data[i];
+    r.dataset.tip = `<b>${d.y}</b> · ${d.n} số hiện còn` + SECTIONS.map(s => `<div class="row">${sw(SEC_VAR[s])}${s}: <b>${d[s]}/${d.n}</b> (${fp(pct(d[s], d.n))})</div>`).join('') + `<span class="muted">Nhấp để xem các đơn vị năm ${d.y}</span>`;
+    r.dataset.filter = JSON.stringify({ y: d.y });
+    r.addEventListener('mouseenter', () => { xh.setAttribute('x1', x(i)); xh.setAttribute('x2', x(i)); xh.setAttribute('opacity', '.35'); });
+    r.addEventListener('mouseleave', () => xh.setAttribute('opacity', '0'));
+  });
+  bindInteractive(el);
+  $('#legend-sections').innerHTML = SECTIONS.map(s => `<span>${sw(SEC_VAR[s], 'line')}${s}</span>`).join('');
+}
+
+/* ================== 2b. Ma trận số báo ================== */
+function renderMatrix() {
+  const el = $('#chart-matrix');
+  const { issues } = DB;
+  const N = issues.length;
+  const cols = `grid-template-columns:repeat(${N},minmax(0,1fr))`;
+  const maxC = Math.max(1, ...issues.flatMap(i => SECTIONS.map(s => i.c[s])));
+  const rowHtml = s => `<div class="rlab">${s}</div><div class="mrow" style="${cols}">${issues.map(i => {
+    const c = i.c[s];
+    const op = c ? 0.35 + 0.65 * Math.sqrt(c / maxC) : 0;
+    const t = `<b>Số ${esc(i.n)} · ${i.d}</b><br>${PERIOD_LABEL[i.p]}${i.ph === 'B' ? ' (pha 6–9/1869)' : ''}` + SECTIONS.map(x => `<div class="row">${sw(SEC_VAR[x])}${x}: <b>${i.c[x]}</b> đơn vị</div>`).join('') + (i.extra ? `<span class="muted">+ ${i.extra} đơn vị phụ thêm</span><br>` : '') + `<span class="muted">Nhấp để xem số báo này</span>`;
+    return `<div class="cell ${c ? 'on' : ''}" style="${c ? `background:color-mix(in srgb, var(${SEC_VAR[s]}) ${Math.round(op * 100)}%, var(--surface))` : ''}"${tipAttr(t, { issue: i.key })}></div>`;
+  }).join('')}</div>`;
+  // Nhãn năm: đặt tại số báo đầu tiên của mỗi năm
+  let yearsHtml = '';
+  issues.forEach((i, idx) => {
+    if (idx === 0 || issues[idx - 1].y !== i.y) {
+      let span = 1; while (idx + span < N && issues[idx + span].y === i.y) span++;
+      yearsHtml += `<span style="grid-column:${idx + 1} / span ${span}">${span >= 2 ? i.y : String(i.y).slice(2)}</span>`;
+    }
+  });
+  const bIdx = issues.findIndex(i => i.ph === 'B'), cIdx = issues.findIndex(i => i.k >= HANDOVER);
+  const markers = [[bIdx, '6/1869', ''], [cIdx, '16/9/1869', 'tvk']].filter(m => m[0] > 0)
+    .map(([ix, lab, cls]) => `<div class="mark-line ${cls}" style="left:calc(${(ix / N) * 100}% - 1px)"></div><div class="mark-lab" style="left:${(ix / N) * 100}%;${cls ? 'color:var(--accent)' : ''}">${lab}</div>`).join('');
+  el.innerHTML = `<div class="matrix" style="padding-top:26px">
+    ${SECTIONS.map(rowHtml).join('')}
+    <div class="rlab small">Phụ trách</div><div class="mrow band" style="${cols}">${issues.map(i => `<div style="background:var(${PERIOD_VAR[i.p]})"></div>`).join('')}</div>
+    <div class="rlab small">Năm</div><div class="mrow years" style="${cols}">${yearsHtml}</div>
+  </div>`;
+  // Đặt vạch mốc lên vùng các hàng
+  const grid = $('.matrix', el);
+  const firstRow = grid.querySelectorAll('.mrow')[0];
+  const holder = document.createElement('div');
+  holder.style.cssText = 'position:absolute;pointer-events:none';
+  const place = () => {
+    const g = grid.getBoundingClientRect(), r = firstRow.getBoundingClientRect(), band = grid.querySelector('.mrow.band').getBoundingClientRect();
+    holder.style.left = (r.left - g.left) + 'px'; holder.style.width = r.width + 'px';
+    holder.style.top = (r.top - g.top) + 'px'; holder.style.height = (band.bottom - r.top) + 'px';
+  };
+  holder.innerHTML = markers;
+  grid.style.position = 'relative';
+  grid.appendChild(holder);
+  place();
+  bindInteractive(el);
+}
+
+/* ================== 3–4. Phân bố hình thức / chủ đề ================== */
+const distState = { hf: { sec: 'Tạp vụ', mode: 'pct' }, cd: { sec: 'Tạp vụ', mode: 'pct' } };
+
+function distData(field, sec) {
+  const pool = DB.main.filter(u => sec === 'all' || u.m === sec);
+  const P = pool.filter(u => u.p === 'Potteaux'), T = pool.filter(u => u.p === 'TVK');
+  const cP = countBy(P, u => u[field]), cT = countBy(T, u => u[field]);
+  const cats = uniqSorted(pool.filter(u => u.p !== 'Janneau'), field);
+  return { NP: P.length, NT: T.length, rows: cats.map(c => ({ c, p: cP.get(c) || 0, t: cT.get(c) || 0 })) };
+}
+
+function buildDist(host) {
+  const field = host.dataset.dist;
+  const fname = field === 'hf' ? 'Hình thức' : 'Chủ đề';
+  host.innerHTML = `
+    <div class="controls">
+      <span><span class="ctl-lab">Chuyên mục</span><span class="seg" data-role="sec"></span></span>
+      <span><span class="ctl-lab">Đơn vị đo</span><span class="seg" data-role="mode"></span></span>
+    </div>
+    <div class="grid g-73">
+      <div class="card">
+        <div class="card-head"><h3>${fname} chính: Potteaux và Trương Vĩnh Ký</h3>
+          <div class="legend"><span>${sw('--pot')}Potteaux <b data-role="np"></b></span><span>${sw('--tvk')}Trương Vĩnh Ký <b data-role="nt"></b></span></div></div>
+        <div data-role="bars"></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h3>Chênh lệch (điểm %)</h3><span class="note">Trương Vĩnh Ký − Potteaux</span></div>
+        <div data-role="diverge"></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:20px">
+      <div class="card-head"><h3>${fname} × chuyên mục: chuyên mục và chức năng không trùng khít</h3><span class="note">Số đơn vị · % trong cột · toàn corpus</span></div>
+      <div class="heat-wrap" data-role="heat"></div>
+      <p class="insight" data-role="heat-insight"></p>
+    </div>`;
+  const segSec = $('[data-role=sec]', host), segMode = $('[data-role=mode]', host);
+  const secOpts = [...SECTIONS.map(s => [s, s]), ['all', 'Cả ba']];
+  segSec.innerHTML = secOpts.map(([v, l]) => `<button data-v="${esc(v)}">${l}</button>`).join('');
+  segMode.innerHTML = `<button data-v="pct">% trong giai đoạn</button><button data-v="n">Số đơn vị</button>`;
+  segSec.addEventListener('click', e => { const b = e.target.closest('button'); if (b) { distState[field].sec = b.dataset.v; renderDist(host); } });
+  segMode.addEventListener('click', e => { const b = e.target.closest('button'); if (b) { distState[field].mode = b.dataset.v; renderDist(host); } });
+  renderDist(host);
+  renderHeat(host, field);
+}
+
+function renderDist(host) {
+  const field = host.dataset.dist, st = distState[field];
+  $('[data-role=sec]', host).querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.v === st.sec));
+  $('[data-role=mode]', host).querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.v === st.mode));
+  const { NP, NT, rows } = distData(field, st.sec);
+  $('[data-role=np]', host).textContent = `(n=${NP})`;
+  $('[data-role=nt]', host).textContent = `(n=${NT})`;
+  const secLabel = st.sec === 'all' ? 'Ba chuyên mục' : st.sec;
+  const val = (n, N) => (st.mode === 'pct' ? pct(n, N) : n);
+  const max = Math.max(1e-9, ...rows.flatMap(r => [val(r.p, NP), val(r.t, NT)]));
+  const fmt = (n, N) => (st.mode === 'pct' ? `${fp(pct(n, N))}` : `${n}`);
+  const secF = st.sec === 'all' ? {} : { m: st.sec };
+  const bar = (n, N, per) => {
+    const t = `<b>${esc(secLabel)} · ${PERIOD_LABEL[per]}</b><br>${esc(rowLabel)}<br><b>${n}</b> / ${N} đơn vị (${fp(pct(n, N))})<br><span class="muted">Nhấp để xem các đơn vị</span>`;
+    return `<div class="btrack"><div class="bar" style="width:calc(${(val(n, N) / max) * 100}% - 64px * ${val(n, N) / max});background:var(${PERIOD_VAR[per]})"${tipAttr(t, { ...secF, p: per, [field]: rowLabel })}></div><span class="bval">${N ? fmt(n, N) : '—'}</span></div>`;
+  };
+  let rowLabel;
+  $('[data-role=bars]', host).innerHTML = rows.length ? `<div class="hbars">${rows.map(r => {
+    rowLabel = r.c;
+    return `<div class="hrow"><div class="lab">${esc(r.c)}</div><div class="pair">${bar(r.p, NP, 'Potteaux')}${bar(r.t, NT, 'TVK')}</div></div>`;
+  }).join('')}</div>` : '<p class="empty">Không có dữ liệu.</p>';
+  bindInteractive($('[data-role=bars]', host));
+
+  // Chênh lệch điểm %
+  const dv = $('[data-role=diverge]', host);
+  if (!NP || !NT) {
+    dv.innerHTML = `<p class="empty">${esc(secLabel)} không có đơn vị ở ${!NT ? 'thời Trương Vĩnh Ký' : 'thời Potteaux'}, nên không so sánh được.</p>`;
+  } else {
+    const drows = rows.map(r => ({ ...r, a: pct(r.p, NP), b: pct(r.t, NT) })).map(r => ({ ...r, dlt: r.b - r.a }))
+      .filter(r => r.p + r.t > 0).sort((x, y) => y.dlt - x.dlt);
+    const dmax = Math.max(1, ...drows.map(r => Math.abs(r.dlt)));
+    dv.innerHTML = `<div class="dlist">${drows.map(r => {
+      const w = (Math.abs(r.dlt) / dmax) * 32; // tối đa 32% mỗi phía, chừa chỗ cho nhãn
+      const pos = r.dlt >= 0;
+      const t = `<b>${esc(r.c)}</b><br>Potteaux: ${fp(r.a)} (${r.p}/${NP})<br>Trương Vĩnh Ký: ${fp(r.b)} (${r.t}/${NT})<br>Chênh lệch: <b>${fpp(r.dlt)} điểm %</b>`;
+      return `<div class="drow"><div class="lab">${esc(r.c)}<small>${nf1.format(r.a)} → ${nf1.format(r.b)}</small></div>
+        <div class="dtrack"><div class="zero"></div>
+          <div class="dbar ${pos ? 'pos' : 'neg'}" style="${pos ? `left:50%` : `right:50%`};width:${Math.max(w, 0.4)}%"${tipAttr(t, { ...secF, [field]: r.c })}></div>
+          <span class="dval" style="${pos ? `left:calc(50% + ${w}% + 6px)` : `right:calc(50% + ${w}% + 6px)`};color:var(${pos ? '--accent' : '--ink-2'})">${fpp(r.dlt)}</span>
+        </div></div>`;
+    }).join('')}</div>`;
+    bindInteractive(dv);
+  }
+}
+
+function renderHeat(host, field) {
+  const { main, fields } = DB;
+  const cats = fields[field];
+  const tot = Object.fromEntries(SECTIONS.map(s => [s, main.filter(u => u.m === s).length]));
+  const cell = (c, s) => main.filter(u => u.m === s && u[field] === c).length;
+  const shade = p => `color-mix(in srgb, var(--seq-1) ${Math.round(8 + p * 0.92)}%, var(--seq-0))`;
+  const rows = cats.map(c => {
+    const all = main.filter(u => u[field] === c).length;
+    return `<tr><th class="rowh">${esc(c)}</th>${SECTIONS.map(s => {
+      const n = cell(c, s), p = pct(n, tot[s]);
+      if (!n) return `<td class="zero">·</td>`;
+      const t = `<b>${esc(s)} × ${esc(c)}</b><br>${n} đơn vị = ${fp(p)} của ${s}<br>= ${fp(pct(n, all))} của nhóm này<br><span class="muted">Nhấp để xem</span>`;
+      return `<td style="background:${shade(p)};color:${p > 45 ? '#fff' : 'var(--ink)'}"${tipAttr(t, { m: s, [field]: c })}>${n}<small>${fp(p)}</small></td>`;
+    }).join('')}<td style="cursor:default;color:var(--muted)">${all}</td></tr>`;
+  }).join('');
+  $('[data-role=heat]', host).innerHTML = `<table class="heat"><thead><tr><th></th>${SECTIONS.map(s => `<th>${sw(SEC_VAR[s])} ${s}<br><span class="hint">n=${tot[s]}</span></th>`).join('')}<th>Tổng</th></tr></thead><tbody>${rows}</tbody></table>`;
+  bindInteractive($('[data-role=heat]', host));
+  // Nhận xét tự tính
+  const ins = $('[data-role=heat-insight]', host);
+  if (field === 'hf') {
+    const tbl = cats.find(c => /^bảng giá/i.test(c)), cq = cats.find(c => /^văn bản công quyền/i.test(c));
+    const tblAll = main.filter(u => u.hf === tbl).length, tblOut = main.filter(u => u.hf === tbl && u.m !== 'Giá chợ').length;
+    const cvOther = main.filter(u => u.m === 'Công vụ' && u.hf !== cq).length;
+    const tvCq = main.filter(u => u.m === 'Tạp vụ' && u.hf === cq).length;
+    ins.innerHTML = `Giá chợ chuyên biệt tuyệt đối, nhưng <b>${tblOut}/${tblAll}</b> đơn vị bảng giá–bảng kê (${fp(pct(tblOut, tblAll))}) nằm ngoài Giá chợ. <b>${cvOther}/${tot['Công vụ']}</b> đơn vị Công vụ (${fp(pct(cvOther, tot['Công vụ']))}) không phải văn bản công quyền, và có <b>${tvCq}</b> văn bản công quyền nằm trong Tạp vụ.`;
+  } else {
+    const kt = cats.find(c => /^kinh tế/i.test(c));
+    const ktAll = main.filter(u => u.cd === kt).length, ktOut = main.filter(u => u.cd === kt && u.m !== 'Giá chợ').length;
+    ins.innerHTML = `Giá chợ hoàn toàn thuộc kinh tế, nhưng thông tin kinh tế không hoàn toàn thuộc Giá chợ: <b>${ktOut}/${ktAll}</b> đơn vị chủ đề kinh tế (${fp(pct(ktOut, ktAll))}) nằm ở Công vụ và Tạp vụ. Vì vậy mục Giá chợ biến mất không có nghĩa là thông tin kinh tế biến mất.`;
+  }
+}
+
+/* ================== 5. Ba pha ================== */
+const phaseState = { sec: 'Tạp vụ', custom: 'hf::Nghị luận – bình luận – khuyến dụ – giáo huấn' };
+function renderPhases() {
+  const seg = $('#phase-sec');
+  seg.innerHTML = [['Tạp vụ', 'Tạp vụ'], ['Công vụ', 'Công vụ'], ['both', 'Công vụ + Tạp vụ']].map(([v, l]) => `<button data-v="${v}" class="${phaseState.sec === v ? 'on' : ''}">${l}</button>`).join('');
+  $('#legend-phases').innerHTML = PHASES.map(p => `<span>${sw(PHASE_VAR[p])}${p} · ${PHASE_LABEL[p]}</span>`).join('');
+  const pool = DB.main.filter(u => (phaseState.sec === 'both' ? u.m !== 'Giá chợ' : u.m === phaseState.sec) && PHASES.includes(u.ph));
+  const byPh = Object.fromEntries(PHASES.map(p => [p, pool.filter(u => u.ph === p)]));
+  const issuesPh = Object.fromEntries(PHASES.map(p => [p, DB.issues.filter(i => i.ph === p).length]));
+  const secF = phaseState.sec === 'both' ? {} : { m: phaseState.sec };
+  const defs = [
+    { key: 'hf::' + (DB.fields.hf.find(c => /^bài tri thức/i.test(c)) || ''), },
+    { key: 'cd::' + (DB.fields.cd.find(c => /^lịch sử/i.test(c)) || ''), },
+    { key: 'title' },
+  ];
+  const card = (key, custom) => {
+    let label, test, filt;
+    if (key === 'title') { label = 'Đơn vị có nhan đề trên báo'; test = u => u.hasTitle; filt = { title: 1 }; }
+    else { const [f, c] = key.split('::'); label = (f === 'hf' ? 'Hình thức: ' : 'Chủ đề: ') + c; test = u => u[f] === c; filt = { [f]: c }; }
+    const vals = PHASES.map(p => { const N = byPh[p].length, n = byPh[p].filter(test).length; return { p, n, N, v: pct(n, N) }; });
+    const mx = Math.max(1e-9, ...vals.map(v => v.v));
+    const opts = custom ? `<select class="inp" id="phase-custom" aria-label="Chọn chỉ báo">
+        <option value="title"${key === 'title' ? ' selected' : ''}>Có nhan đề trên báo</option>
+        <optgroup label="Hình thức">${DB.fields.hf.map(c => `<option value="hf::${esc(c)}"${key === 'hf::' + c ? ' selected' : ''}>${esc(c)}</option>`).join('')}</optgroup>
+        <optgroup label="Chủ đề">${DB.fields.cd.map(c => `<option value="cd::${esc(c)}"${key === 'cd::' + c ? ' selected' : ''}>${esc(c)}</option>`).join('')}</optgroup></select>` : '';
+    return `<div class="pcard ${custom ? 'custom' : ''}">
+      ${custom ? `<span class="ctl-lab">Tự chọn chỉ báo</span>${opts}` : `<h3>${esc(label)}</h3>`}
+      <div class="pbars">${vals.map(v => `<div class="pc"><div class="pv">${v.N ? fp(v.v) : '—'}</div><div class="pb" style="height:${(v.v / mx) * 82}%;background:var(${PHASE_VAR[v.p]})"${tipAttr(`<b>Pha ${v.p} · ${PHASE_LABEL[v.p]}</b><br>${esc(label)}<br><b>${v.n}</b> / ${v.N} đơn vị (${fp(v.v)})<br><span class="muted">${issuesPh[v.p]} số báo · Nhấp để xem</span>`, { ...secF, ph: v.p, ...filt })}></div></div>`).join('')}</div>
+      <div class="plabs">${vals.map(v => `<span>${v.p}<br>${v.n}/${v.N}</span>`).join('')}</div>
+    </div>`;
+  };
+  $('#chart-phases').innerHTML = defs.map(d => card(d.key, false)).join('') + card(phaseState.custom, true);
+  bindInteractive($('#chart-phases'));
+  $('#phase-custom').addEventListener('change', e => { phaseState.custom = e.target.value; renderPhases(); });
+}
+$('#phase-sec').addEventListener('click', e => { const b = e.target.closest('button'); if (b) { phaseState.sec = b.dataset.v; renderPhases(); } });
+
+/* ================== 6. Bảng dữ liệu ================== */
+const PAGE = 25;
+const tstate = { f: {}, q: '', page: 0 };
+const FILTER_DEFS = [
+  ['m', 'Chuyên mục'], ['p', 'Người phụ trách'], ['ph', 'Pha'], ['y', 'Năm'], ['hf', 'Hình thức chính'], ['cd', 'Chủ đề chính'],
+];
+const CHIP_LABEL = { ...Object.fromEntries(FILTER_DEFS), issue: 'Số báo', title: 'Nhan đề' };
+const chipValue = (k, v) => k === 'p' ? PERIOD_LABEL[v] : k === 'ph' ? `${v} · ${PHASE_LABEL[v]}` : k === 'issue' ? (() => { const [kk, n] = String(v).split('|'); return `Số ${n} · ${keyToDate(+kk)}`; })() : k === 'title' ? 'có nhan đề' : v;
+
+function buildFilters() {
+  const { units } = DB;
+  const opts = {
+    m: [...SECTIONS, ...[...new Set(units.map(u => u.m))].filter(m => !SECTIONS.includes(m))],
+    p: PERIODS, ph: ['A', 'B', 'C', 'J'],
+    y: [...new Set(units.map(u => u.y))].sort(),
+    hf: DB.fields.hf, cd: DB.fields.cd,
+  };
+  $('#filters').innerHTML = FILTER_DEFS.map(([k, lab]) => `<label>${lab}<select class="inp" data-f="${k}"><option value="">Tất cả</option>${opts[k].map(v => `<option value="${esc(v)}">${esc(chipValue(k, v))}</option>`).join('')}</select></label>`).join('')
+    + `<label class="search">Tìm kiếm<input class="inp" type="search" id="q" placeholder="Ví dụ: Sài Gòn, lúa, đấu xảo, Pha-lang-sa…"></label>`;
+  $('#filters').querySelectorAll('select').forEach(s => s.addEventListener('change', () => {
+    const k = s.dataset.f; if (s.value) tstate.f[k] = k === 'y' ? +s.value : s.value; else delete tstate.f[k];
+    tstate.page = 0; renderTable();
+  }));
+  let tm; $('#q').addEventListener('input', e => { clearTimeout(tm); tm = setTimeout(() => { tstate.q = e.target.value.trim().toLowerCase(); tstate.page = 0; renderTable(); }, 150); });
+}
+
+function filtered() {
+  const { f, q } = tstate;
+  const terms = q ? q.normalize('NFC').split(/\s+/) : [];
+  return DB.units.filter(u => {
+    for (const [k, v] of Object.entries(f)) {
+      if (k === 'title') { if (!u.hasTitle) return false; continue; }
+      if (u[k] !== v) return false;
+    }
+    return terms.every(t => u.search.includes(t));
+  });
+}
+
+function applyFilter(obj) {
+  tstate.f = { ...obj };
+  tstate.q = ''; tstate.page = 0;
+  $('#q').value = '';
+  $('#filters').querySelectorAll('select').forEach(s => { s.value = tstate.f[s.dataset.f] ?? ''; });
+  renderTable();
+  $('#du-lieu').scrollIntoView({ behavior: 'smooth' });
+}
+
+function renderTable() {
+  const rows = filtered();
+  const pages = Math.max(1, Math.ceil(rows.length / PAGE));
+  tstate.page = Math.min(tstate.page, pages - 1);
+  const slice = rows.slice(tstate.page * PAGE, (tstate.page + 1) * PAGE);
+  $('#tbody').innerHTML = slice.length ? slice.map(u => `<tr data-id="${u.id}" tabindex="0">
+      <td class="num">${u.d}</td><td class="num">${esc(u.n)}</td>
+      <td><span class="tag">${sw(PERIOD_VAR[u.p])}${PERIOD_LABEL[u.p]}</span></td>
+      <td><span class="tag">${SEC_VAR[u.m] ? sw(SEC_VAR[u.m]) : ''}${esc(u.m)}</span></td>
+      <td class="title-cell">${u.hasTitle ? `<b>${esc(u.t)}</b><div class="tt">${esc(u.tt || '')}</div>` : esc(u.tt || '—')}</td>
+      <td>${esc(u.hf)}</td><td>${esc(u.cd)}</td></tr>`).join('')
+    : `<tr><td colspan="7" class="empty">Không có đơn vị nào khớp bộ lọc.</td></tr>`;
+  $('#pager-info').textContent = rows.length ? `Hiển thị ${tstate.page * PAGE + 1}–${tstate.page * PAGE + slice.length} / ${nf0.format(rows.length)} đơn vị · trang ${tstate.page + 1}/${pages}` : '0 đơn vị';
+  $('#pg-prev').disabled = tstate.page === 0; $('#pg-next').disabled = tstate.page >= pages - 1;
+  // Chips
+  const chips = Object.entries(tstate.f).map(([k, v]) => `<span class="chip">${CHIP_LABEL[k] || k}: <b>${esc(chipValue(k, v))}</b><button data-k="${k}" aria-label="Bỏ lọc">×</button></span>`);
+  if (tstate.q) chips.push(`<span class="chip">Tìm: <b>${esc(tstate.q)}</b><button data-k="__q" aria-label="Bỏ tìm kiếm">×</button></span>`);
+  $('#chips').innerHTML = chips.length ? chips.join('') + `<button class="btn" id="clear-all" style="padding:4px 10px;font-size:13px">Xóa tất cả</button>` : '<span class="hint">Chưa lọc. Nhấp vào biểu đồ hoặc chọn bộ lọc ở trên.</span>';
+}
+$('#chips').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.id === 'clear-all') { tstate.f = {}; tstate.q = ''; $('#q').value = ''; }
+  else if (b.dataset.k === '__q') { tstate.q = ''; $('#q').value = ''; }
+  else delete tstate.f[b.dataset.k];
+  $('#filters').querySelectorAll('select').forEach(s => { s.value = tstate.f[s.dataset.f] ?? ''; });
+  tstate.page = 0; renderTable();
+});
+$('#pg-prev').addEventListener('click', () => { tstate.page--; renderTable(); });
+$('#pg-next').addEventListener('click', () => { tstate.page++; renderTable(); });
+const openRow = tr => tr && openDetail(DB.units.find(u => u.id === +tr.dataset.id));
+$('#tbody').addEventListener('click', e => openRow(e.target.closest('tr[data-id]')));
+$('#tbody').addEventListener('keydown', e => { if (e.key === 'Enter') openRow(e.target.closest('tr[data-id]')); });
+
+function openDetail(u) {
+  if (!u) return;
+  const dlg = $('#detail');
+  const rows = ['hf2', 'cd2', 'kw', 'sum', 'note'].filter(k => u[k]).map(k => `<dt>${FIELD_LABEL[k]}</dt><dd>${esc(u[k])}</dd>`).join('');
+  dlg.innerHTML = `<div class="dlg-head"><div>
+      <p class="eyebrow">${esc(u.m)} · Số ${esc(u.n)} · ${u.d} · ${PERIOD_LABEL[u.p]}</p>
+      <h2 style="font-size:28px;margin-top:6px">${esc(u.hasTitle ? u.t : (u.tt || 'Không có nhan đề'))}</h2>
+      ${u.hasTitle && u.tt ? `<p class="hint">${esc(u.tt)}</p>` : ''}
+    </div><button class="btn" id="dlg-close" aria-label="Đóng">Đóng</button></div>
+    <dl class="dlg-body">
+      <dt>Hình thức chính</dt><dd><b>${esc(u.hf)}</b></dd>
+      <dt>Chủ đề chính</dt><dd><b>${esc(u.cd)}</b></dd>
+      ${rows}
+      ${u.ocr ? `<dt style="grid-column:1/-1">OCR</dt><div class="ocr">${esc(u.ocr)}</div>` : ''}
+    </dl>`;
+  $('#dlg-close', dlg).addEventListener('click', () => dlg.close());
+  dlg.showModal();
+}
+$('#detail').addEventListener('click', e => { if (e.target.id === 'detail') e.target.close(); });
+
+/* ================== Xuất dữ liệu ================== */
+const EXPORT_COLS = [['d', 'Ngày'], ['n', 'Số'], ['p', 'Phụ trách'], ['m', 'Mục'], ['t', 'Tên bài'], ['tt', 'Tên đặt tạm thời'], ['hf', 'Hình thức chính'], ['hf2', 'Hình thức phụ'], ['cd', 'Chủ đề chính'], ['cd2', 'Chủ đề phụ'], ['kw', 'Từ khóa'], ['sum', 'Tóm tắt nội dung'], ['note', 'Ghi chú phân loại'], ['ph', 'Pha'], ['ocr', 'OCR']];
+const exportRows = () => filtered().map(u => Object.fromEntries(EXPORT_COLS.map(([k, l]) => [l, k === 'p' ? PERIOD_LABEL[u.p] : (u[k] ?? '')])));
+function download(blob, name) { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000); }
+$('#btn-csv').addEventListener('click', () => {
+  const rows = exportRows(); const head = EXPORT_COLS.map(c => c[1]);
+  const q = v => `"${String(v).replace(/"/g, '""')}"`;
+  const csv = '﻿' + [head.map(q).join(','), ...rows.map(r => head.map(h => q(r[h])).join(','))].join('\r\n');
+  download(new Blob([csv], { type: 'text/csv;charset=utf-8' }), 'gia-dinh-bao_loc.csv');
+});
+$('#btn-xlsx').addEventListener('click', async () => {
+  try {
+    const X = await loadXLSX();
+    const ws = X.utils.json_to_sheet(exportRows());
+    const wb = X.utils.book_new(); X.utils.book_append_sheet(wb, ws, 'Đơn vị (đã lọc)');
+    X.writeFile(wb, 'gia-dinh-bao_loc.xlsx');
+  } catch (err) { alert(err.message); }
+});
+
+/* ================== Đọc file Excel ================== */
+function loadXLSX() {
+  if (window.XLSX) return Promise.resolve(window.XLSX);
+  const urls = ['https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js', 'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js'];
+  return urls.reduce((p, url) => p.catch(() => new Promise((res, rej) => {
+    const s = document.createElement('script'); s.src = url;
+    s.onload = () => (window.XLSX ? res(window.XLSX) : rej()); s.onerror = rej; document.head.appendChild(s);
+  })), Promise.reject()).catch(() => { throw new Error('Không tải được thư viện đọc Excel. Hãy kiểm tra kết nối Internet.'); });
+}
+function sheetRecords(X, ws, cols, mustHave) {
+  const rows = X.utils.sheet_to_json(ws, { header: 1, defval: null, raw: true });
+  const hi = rows.slice(0, 15).findIndex(r => r && r.some(c => nfc(String(c ?? '')) === mustHave));
+  if (hi < 0) return null;
+  const header = rows[hi].map(c => nfc(String(c ?? '')));
+  const idx = Object.fromEntries(Object.entries(cols).map(([k, names]) => [k, names.map(n => header.indexOf(n)).find(i => i >= 0)]));
+  return rows.slice(hi + 1).map(r => {
+    const o = {};
+    for (const [k, i] of Object.entries(idx)) if (i !== undefined && r[i] !== null && String(r[i]).trim() !== '') o[k] = r[i];
+    return o;
+  });
+}
+async function openWorkbook(file) {
+  const src = $('#source');
+  src.className = 'source'; src.textContent = `Đang đọc ${file.name}…`;
+  try {
+    const X = await loadXLSX();
+    const wb = X.read(await file.arrayBuffer(), { type: 'array' });
+    let units = null, issues = [];
+    for (const name of wb.SheetNames) {
+      const u = sheetRecords(X, wb.Sheets[name], UNIT_COLS, 'Hình thức chính');
+      if (u) { const good = u.filter(r => r.d && r.m && r.hf); if (good.length > (units?.length || 0)) units = good; }
+      const is = sheetRecords(X, wb.Sheets[name], ISSUE_COLS, 'Tình trạng lưu trữ');
+      if (is && is.filter(r => r.id).length > issues.length) issues = is.filter(r => r.id);
+    }
+    if (!units || !units.length) throw new Error('Không tìm thấy sheet nào có cột “Hình thức chính”, “DATE” và “Mục”.');
+    load({ source: file.name, units, issues });
+    $('#btn-reset-data').hidden = false;
+  } catch (err) {
+    src.className = 'source err'; src.textContent = 'Lỗi: ' + err.message;
+  }
+}
+$('#file-input').addEventListener('change', e => { const f = e.target.files[0]; if (f) openWorkbook(f); e.target.value = ''; });
+$('#btn-reset-data').addEventListener('click', () => { load(window.GDB_DATA); $('#btn-reset-data').hidden = true; });
+
+/* ================== Khởi động ================== */
+function load(raw) {
+  DB = prepare(raw);
+  $('#source').className = 'source';
+  $('#source').innerHTML = `Nguồn: <b>${esc(DB.source)}</b> · ${nf0.format(DB.units.length)} dòng · ${DB.issues.length} số báo`;
+  tstate.f = {}; tstate.q = ''; tstate.page = 0;
+  renderKPIs(); renderSurvival(); renderEditor(); renderPresence(); renderMatrix();
+  document.querySelectorAll('[data-dist]').forEach(buildDist);
+  renderPhases(); buildFilters(); renderTable();
+}
+let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { if (DB) { renderPresence(); renderMatrix(); } }, 150); });
+
+// Đánh dấu mục đang xem trên thanh điều hướng
+const navLinks = [...document.querySelectorAll('nav.tabs a')];
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) navLinks.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id)); }), { rootMargin: '-40% 0px -55% 0px' });
+document.querySelectorAll('main section').forEach(s => io.observe(s));
+
+if (window.GDB_DATA) load(window.GDB_DATA);
+else { $('#source').className = 'source err'; $('#source').textContent = 'Không thấy data.js. Hãy dùng nút “Mở file Excel…”.'; }
+})();
+</script>
+</body>
+</html>
