@@ -529,7 +529,8 @@ table.row td { border-bottom: 1px solid var(--rule); padding: 4px 8px; }
 .sl-panel button:hover { background: var(--paper-2); }
 .sl-panel button[aria-current="true"] { background: var(--ink); color: var(--paper); }
 .sl-panel button[aria-current="true"] .n { color: var(--paper); }
-@media (max-width: 560px) { .hud .menu span { display: none; } }
+.hud .menu { white-space: nowrap; }
+@media (max-width: 960px) { .hud .menu span { display: none; } .hud .keys { display: none; } }
 </style>
 
 </head>
@@ -1162,6 +1163,20 @@ table.row td { border-bottom: 1px solid var(--rule); padding: 4px 8px; }
     s7() { document.getElementById('svg7').classList.remove('drawn', 'dropped'); },
   };
 
+  /* ---------- Tự co nội dung cho vừa khung (màn hình hẹp / thấp) ---------- */
+  function fitScene(sc) {
+    const inner = sc && sc.querySelector(':scope > .inner'); if (!inner) return;
+    inner.style.transform = ''; inner.style.transformOrigin = '';
+    const cs = getComputedStyle(sc);
+    const availH = sc.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+    const availW = sc.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    const h = inner.scrollHeight, w = inner.scrollWidth;
+    const k = Math.min(1, availH / h, availW / w);
+    if (k < 0.995) { inner.style.transformOrigin = 'center center'; inner.style.transform = `scale(${Math.max(k, .45).toFixed(3)})`; }
+  }
+  const fitCur = () => requestAnimationFrame(() => fitScene(scenes[si]));
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitCur);
+
   function render(entering) {
     scenes.forEach((s, i) => s.classList.toggle('cur', i === si));
     const sc = scenes[si];
@@ -1174,6 +1189,7 @@ table.row td { border-bottom: 1px solid var(--rule); padding: 4px 8px; }
     const max = +sc.dataset.steps;
     document.getElementById('pg').textContent = LABEL[si] ? `${LABEL[si]} / ${cnum}` : '';
     document.getElementById('stepdots').innerHTML = max ? Array.from({ length: max + 1 }, (_, i) => `<i class="${i <= st ? 'on' : ''}"></i>`).join('') : '';
+    fitCur(); setTimeout(fitCur, 1200);
   }
   function next() {
     document.getElementById('keys').classList.add('hide');
