@@ -2,7 +2,7 @@
 
 [**Mở trang nghiên cứu có thể chỉnh sửa**](https://thuat-ngu-viet-han-nghien-cuu.h160824h.chatgpt.site/)
 
-[**Tải Excel nghiên cứu**](Ra_soat_266_muc_thuat_ngu_Viet_Han.xlsx) · [**Mã nguồn trang**](editor-source.zip) · [**Thông tin bản dữ liệu**](research-summary.json)
+[**Tải Excel nghiên cứu**](Ra_soat_266_muc_thuat_ngu_Viet_Han.xlsx) · [**Mã nguồn bản bàn giao trước**](editor-source.zip) · [**Thông tin bản dữ liệu**](research-summary.json)
 
 Trang vẫn riêng tư theo tài khoản chủ sở hữu. Kho GitHub lưu bản bàn giao; các sửa đổi của bạn trên trang được lưu trực tuyến riêng và không tự ghi ngược vào Excel hoặc GitHub. CSV/JSON xuất từ trang phản ánh bản đang được trang tải.
 
@@ -74,3 +74,16 @@ Nguồn chuyên ngành giữ thông tin giấy phép tại từng mục. Trích 
 Migration chỉ tạo schema. Dữ liệu nghiên cứu đọc từ file JSON; chỉ chỉnh sửa và lịch sử được ghi vào D1. API production yêu cầu danh tính do Sites cung cấp. Môi trường phát triển có tài khoản thử riêng; nhánh thử không được đưa vào bản production. Hướng dẫn framework giữ tại `README.framework.md`.
 
 Trước bàn giao đã kiểm tra kiểu TypeScript, build, dữ liệu 266 dòng, quyền truy cập, cách ly tài khoản, lưu/khôi phục và xung đột ghi. Xem trước bằng trình duyệt chưa thực hiện được vì dịch vụ preview của môi trường không khả dụng.
+
+
+## Liên kết bài báo và câu Việt–Hàn — 29/10/2026
+
+[Thư viện bài báo trên trang riêng tư](https://thuat-ngu-viet-han-nghien-cuu.h160824h.chatgpt.site/articles) · [Chỉ mục dữ liệu câu và nguồn](corpus-index/README.md)
+
+Mở một thuật ngữ, chọn **Câu báo / 기사 문장** để xem câu Hàn chứa thuật ngữ và câu Việt đã đối chiếu. Có điểm neo trực tiếp đến câu, tên bài, ngày đăng và URL gốc. Các lượt xuất hiện đơn thuần, cặp có điều kiện và bài chỉ cùng sự kiện được ghi riêng.
+
+Gói trang hiện chứa 266 hồ sơ có lượt Hàn; 200 hồ sơ có chứng cứ Việt: 191 có ít nhất một cặp đã kiểm tra, 6 có điều kiện, 3 mới cùng sự kiện; 66 chưa có câu Việt được xác nhận trong gói này. Có 223 liên kết cặp đã kiểm tra, 639 bản ghi bài/638 URL riêng biệt. Đây là độ phủ của gói liên kết, không phải số thuật ngữ mới hay kết luận về mọi lượt xuất hiện.
+
+Thư mục `corpus-index/` công khai chỉ chứa nhãn, ID, metadata bài, URL, vị trí câu, hash và trạng thái. Không đưa toàn văn hay nội dung câu của kho riêng tư lên GitHub. Câu gốc được xem trên trang riêng tư sau đăng nhập hoặc tại bài Nhân Dân. Chỉnh sửa trực tuyến vẫn không tự đồng bộ ngược GitHub. Excel và editor-source.zip là bản bàn giao trước bổ sung liên kết câu này.
+
+Bản Sites: commit `7fce4b76f56f75c454873f2f04aacb3d1e994765`; triển khai thành công. Kiểm thử kiểu dữ liệu, build và điều hướng bản xem trước đã đạt; kiểm tra luồng tài khoản ở bản production bị giới hạn bởi màn hình đăng nhập riêng tư.
