@@ -1,46 +1,219 @@
 {
+  "version": "2026-10-29-definitions-v3",
+  "review_date": "2026-10-29 (KST)",
   "rows": 266,
-  "language_forms": 532,
-  "vi_class": {
-    "Hán Việt": 192,
-    "Hán Việt + thuần Việt": 26,
-    "Chưa chốt": 27,
-    "Hán Việt + ngoại lai khác": 12,
-    "Thuần Việt": 3,
-    "Hán Việt + gốc Hán khác": 3,
-    "Ngoại lai khác": 1,
-    "Hán Việt + thuần Việt + gốc Hán khác": 2
+  "origins": {
+    "original_set": 167,
+    "added_C_rows": 99
   },
-  "ko_class": {
-    "Hán Hàn": 210,
-    "Hán Hàn + ngữ pháp thuần Hàn": 6,
-    "Hán Hàn + ngoại lai khác": 42,
-    "Ngoại lai khác": 5,
-    "Dạng song song: ngoại lai / Hán Hàn": 1,
-    "Hán Hàn + thuần Hàn": 1,
-    "Hán Hàn + ngữ pháp thuần Hàn + ngoại lai khác": 1
+  "duplicate_concepts_preserved_by_id": true,
+  "site_url": "https://thuat-ngu-viet-han-nghien-cuu.h160824h.chatgpt.site/",
+  "site_access": "owner-private",
+  "definition_review": {
+    "rows": 266,
+    "vi_status": {
+      "working_only": 122,
+      "source_definition": 18,
+      "official_description": 85,
+      "source_paraphrase": 33,
+      "unverified": 8
+    },
+    "vi_native_concept_definitions": 23,
+    "ko_status": {
+      "component_only": 91,
+      "exact_definition": 92,
+      "checked_no_exact": 73,
+      "sense_mismatch": 5,
+      "variant_definition": 5
+    },
+    "ko_access_mode": {
+      "mirrored_export": 229,
+      "official_index": 37
+    },
+    "ko_general_entries": 193,
+    "ko_official_index_whole_forms": 21,
+    "ko_snapshot_definition_rows": 156,
+    "specialized_rows_targeted_search": 49,
+    "specialized_unique_source_entries": 19,
+    "specialized_rows_with_entries": 21,
+    "specialized_entries": 21,
+    "specialized_rows_with_whole_definition": 12,
+    "specialized_status": {
+      "sense_mismatch": 3,
+      "mapping_only": 3,
+      "component_only": 3,
+      "exact_definition": 10,
+      "variant_definition": 2
+    },
+    "english_verdicts": {
+      "confirmed": 75,
+      "candidate": 137,
+      "insufficient": 18,
+      "scope_mismatch": 14,
+      "conditional": 22
+    },
+    "english_strict_confirmed": 69
   },
-  "vi_confidence": {
-    "A": 161,
-    "B": 78,
-    "C": 27
+  "etymology": {
+    "vi_confidence": {
+      "A": 161,
+      "B": 78,
+      "C": 27
+    },
+    "ko_confidence": {
+      "A": 64,
+      "B": 202
+    },
+    "pairs": {
+      "A/A — Có chứng cứ hai phía": 48,
+      "B — Cần bổ sung chứng cứ": 191,
+      "C — Còn điểm chưa chốt": 27
+    },
+    "hvdic_status": {
+      "Có chứng cứ cho thành tố": 241,
+      "Có mục từ cả dạng biểu thức": 12,
+      "Chưa có chứng cứ HVDic trong lượt này": 13
+    },
+    "confirmed_en_and_etym_AA": 15
   },
-  "ko_confidence": {
-    "A": 64,
-    "B": 202
+  "english": {
+    "n": 266,
+    "verdict": {
+      "confirmed": 75,
+      "candidate": 137,
+      "insufficient": 18,
+      "scope_mismatch": 14,
+      "conditional": 22
+    },
+    "two_mappings": 92,
+    "evidenced_same_form": 80,
+    "strict_confirmed": 69,
+    "confirmed_variants": 6,
+    "legs_by_kind": {
+      "parallel_official": 76,
+      "dictionary_mapping": 49,
+      "explicit_bilingual": 106,
+      "provided_only": 147,
+      "analyst_proposal": 151,
+      "concept_only": 3
+    },
+    "confirmed_concept_links": 70,
+    "strict_by_group": {
+      "N1": 22,
+      "N2": 17,
+      "N3": 5,
+      "N4": 12,
+      "N5": 10,
+      "Cần xem xét": 3
+    },
+    "confirmed_ids": [
+      "T085",
+      "T078",
+      "T103",
+      "T100",
+      "T101",
+      "T003",
+      "T079",
+      "T093",
+      "T082",
+      "M052",
+      "T099",
+      "T074",
+      "T184",
+      "T185",
+      "T075",
+      "T084",
+      "T091",
+      "T083",
+      "M025",
+      "M029",
+      "T171",
+      "M037",
+      "T111",
+      "T132",
+      "T169",
+      "T135",
+      "T155",
+      "T159",
+      "M031",
+      "T151",
+      "T154",
+      "T006",
+      "M006",
+      "M010",
+      "T001",
+      "T141",
+      "T131",
+      "T172",
+      "T156",
+      "T136",
+      "T144",
+      "T014",
+      "M020",
+      "T158",
+      "T044",
+      "M007",
+      "C001",
+      "C003",
+      "C004",
+      "C031",
+      "C036",
+      "C039",
+      "C040",
+      "C047",
+      "C048",
+      "C049",
+      "C068",
+      "C070",
+      "C072",
+      "C085",
+      "C097",
+      "C109",
+      "C110",
+      "C135",
+      "C137",
+      "C143",
+      "C144",
+      "C155",
+      "C157",
+      "C161",
+      "C165",
+      "C166",
+      "C167",
+      "C169",
+      "C170"
+    ]
   },
-  "hvdic_status": {
-    "Có chứng cứ cho thành tố": 241,
-    "Có mục từ cả dạng biểu thức": 12,
-    "Chưa có chứng cứ HVDic trong lượt này": 13
-  },
-  "pairs": {
-    "A/A — Có chứng cứ hai phía": 48,
-    "B — Cần bổ sung chứng cứ": 191,
-    "C — Còn điểm chưa chốt": 27
-  },
-  "sources_unique_url": 315,
-  "source_linked_vi": 259,
-  "source_linked_ko": 210,
-  "confirmed_en_and_etym_AA": 15
+  "new_definition_source_urls": 177,
+  "method": [
+    "Nghĩa làm việc xác định khái niệm nghiên cứu; không đồng nghĩa với định nghĩa được nguồn xác nhận.",
+    "Định nghĩa có nguồn, mô tả chính thức, bản dịch và diễn giải đều có nhãn riêng. Ngôn ngữ nguồn được ghi theo trang đã đọc.",
+    "Phân biệt từ điển quốc ngữ và từ điển thuật ngữ chuyên ngành. Nền tảng tổng hợp không thay thế tên đơn vị biên soạn mục từ.",
+    "Mỗi định nghĩa phải gắn với mục từ, nghĩa và phạm vi; chứng cứ thành tố không xác nhận toàn biểu thức.",
+    "Đọc riêng hai ánh xạ Việt–Anh và Hàn–Anh; chỉ kết luận tương ứng khi cùng khái niệm và phạm vi.",
+    "Bản xuất XML lưu tại kho công khai được ghi rõ ngày và nơi lưu; chưa mặc nhiên là mục từ được kiểm trực tiếp trên trang gốc hiện tại.",
+    "Chưa xác minh hoặc chưa tìm thấy trong phạm vi nguồn đã kiểm không chứng minh thuật ngữ không tồn tại."
+  ],
+  "english_correction_ids": [
+    "T079",
+    "M037",
+    "T109",
+    "C056",
+    "T015",
+    "C006",
+    "C160",
+    "C154"
+  ],
+  "verification_limits": [
+    "Official dictionary entry pages could not all be opened. Each row identifies official-index or archived-XML access.",
+    "Specialized terminology lookup targeted49rows;21rows have supplementary entries; remaining rows are not all exhausted dictionary searches.",
+    "Browser preview was unavailable in this environment; checks covered data, server rendering, API behavior and production build."
+  ],
+  "site_source_commit": "043da3a74d6c357d63625d17477555cfbf228f81",
+  "workbook_sha256": "64026c16ff18a15168f02a54f0ab459b235f76be6d2b6a7e6279035dad978fa3",
+  "workbook_bytes": 590105,
+  "workbook_sheets": 8,
+  "evidence_rows": 1362,
+  "site_deployment_id": "appgdep_6ae26c0eaad481918d807fb1d49d9531",
+  "site_deployment_status": "succeeded"
 }
