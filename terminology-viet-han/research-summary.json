@@ -1,0 +1,46 @@
+{
+  "rows": 266,
+  "language_forms": 532,
+  "vi_class": {
+    "Hán Việt": 192,
+    "Hán Việt + thuần Việt": 26,
+    "Chưa chốt": 27,
+    "Hán Việt + ngoại lai khác": 12,
+    "Thuần Việt": 3,
+    "Hán Việt + gốc Hán khác": 3,
+    "Ngoại lai khác": 1,
+    "Hán Việt + thuần Việt + gốc Hán khác": 2
+  },
+  "ko_class": {
+    "Hán Hàn": 210,
+    "Hán Hàn + ngữ pháp thuần Hàn": 6,
+    "Hán Hàn + ngoại lai khác": 42,
+    "Ngoại lai khác": 5,
+    "Dạng song song: ngoại lai / Hán Hàn": 1,
+    "Hán Hàn + thuần Hàn": 1,
+    "Hán Hàn + ngữ pháp thuần Hàn + ngoại lai khác": 1
+  },
+  "vi_confidence": {
+    "A": 161,
+    "B": 78,
+    "C": 27
+  },
+  "ko_confidence": {
+    "A": 64,
+    "B": 202
+  },
+  "hvdic_status": {
+    "Có chứng cứ cho thành tố": 241,
+    "Có mục từ cả dạng biểu thức": 12,
+    "Chưa có chứng cứ HVDic trong lượt này": 13
+  },
+  "pairs": {
+    "A/A — Có chứng cứ hai phía": 48,
+    "B — Cần bổ sung chứng cứ": 191,
+    "C — Còn điểm chưa chốt": 27
+  },
+  "sources_unique_url": 315,
+  "source_linked_vi": 259,
+  "source_linked_ko": 210,
+  "confirmed_en_and_etym_AA": 15
+}
